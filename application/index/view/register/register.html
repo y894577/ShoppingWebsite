@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Register</title>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- import Vue before Element -->
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -16,7 +16,7 @@
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
                      class="demo-ruleForm">
                 <el-form-item label="邮箱" prop="email"
-                              :rules="[{ required: true, message: '邮箱不能为空', trigger: 'blur' },
+                              :rules="[{ required: true, message: '请输入邮箱地址', trigger: 'blur' },
                               { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }]">
                     <el-input type="email" v-model="ruleForm.email" autocomplete="off"></el-input>
                 </el-form-item>
@@ -25,8 +25,13 @@
                               {min: 6, max: 18, message: '请输入6至18位数字', trigger: 'blur' }]">
                     <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
                 </el-form-item>
+                <el-form-item label="确认密码" prop="checkPass"
+                              :rules="[{ required: true, message: '确认密码不能为空', trigger: 'blur' },
+                              {min: 6, max: 18, message: '请输入6至18位数字', trigger: 'blur' }]">
+                    <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+                </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                    <el-button type="primary" @click="submitForm('ruleForm')">注册提交</el-button>
                     <el-button @click="resetForm('ruleForm')">重置</el-button>
                 </el-form-item>
             </el-form>
@@ -58,15 +63,15 @@
                     callback();
                 }
             };
-            // var validatePass2 = (rule, value, callback) => {
-            //     if (value === '') {
-            //         callback(new Error('请再次输入密码'));
-            //     } else if (value !== this.ruleForm.pass) {
-            //         callback(new Error('两次输入密码不一致!'));
-            //     } else {
-            //         callback();
-            //     }
-            // };
+            var validatePass2 = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请再次输入密码'));
+                } else if (value !== this.ruleForm.pass) {
+                    callback(new Error('两次输入密码不一致!'));
+                } else {
+                    callback();
+                }
+            };
             return {
                 ruleForm: {
                     email: '',
@@ -80,9 +85,9 @@
                     pass: [
                         {validator: validatePass, trigger: 'blur'}
                     ],
-                    // checkPass: [
-                    //     {validator: validatePass2, trigger: 'blur'}
-                    // ]
+                    checkPass: [
+                        {validator: validatePass2, trigger: 'blur'}
+                    ]
                 }
             };
         },
@@ -91,6 +96,9 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         alert('submit!');
+                        this.$http.post('',valid).then(function (response) {
+                            console.log(response)
+                        })
                     } else {
                         console.log('error submit!!');
                         return false;

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- import Vue before Element -->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <el-container style="display: flex;justify-content: center;margin-top: 100px">
+        <div style="font-family: 'Microsoft YaHei UI';font-size: 50px;color: #2d6a88">
+            登 录
+        </div>
+    </el-container>
+    <el-container style="display: flex;justify-content: center;align-items: center;margin-top: 50px">
+        <div style="width: 400px;padding-top: 30px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)">
+            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
+                     class="demo-ruleForm">
+                <el-form-item label="邮箱" prop="email" >
+                    <el-input type="email" v-model="ruleForm.email" autocomplete="off" style="width: 200px"></el-input>
+                </el-form-item>
+                <el-form-item label="密码" prop="pass">
+                    <el-input type="password" v-model="ruleForm.pass" autocomplete="off" style="width: 200px"></el-input>
+                </el-form-item>
+                <el-form-item label="验证码" prop="identify">
+                    <el-input type="text" v-model="ruleForm.identify" autocomplete="off" style="width: 200px"></el-input>
+                </el-form-item>
+                <canvas id="s-canvas" :width="contentWidth" :height="contentHeight" style="margin-left: 100px"></canvas>
+                <!--                <el-form-item>-->
+                <!--                    <div @click="refreshCode">-->
+                <!--                        <s-identify :identifyCode="identifyCode"></s-identify>-->
+                <!--                    </div>-->
+                <!--                    <el-button @click="refreshCode" type='text' class="textbtn">看不清，换一张</el-button>-->
+                <!--                </el-form-item>-->
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                    <el-button @click="resetForm('ruleForm')">重置</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+    </el-container>
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        props: {
+            identifyCode: {
+                type: String,
+                default: '1234'
+            },
+            fontSizeMin: {
+                type: Number,
+                default: 16
+            },
+            fontSizeMax: {
+                type: Number,
+                default: 40
+            },
+            backgroundColorMin: {
+                type: Number,
+                default: 180
+            },
+            backgroundColorMax: {
+                type: Number,
+                default: 240
+            },
+            colorMin: {
+                type: Number,
+                default: 50
+            },
+            colorMax: {
+                type: Number,
+                default: 160
+            },
+            lineColorMin: {
+                type: Number,
+                default: 40
+            },
+            lineColorMax: {
+                type: Number,
+                default: 180
+            },
+            dotColorMin: {
+                type: Number,
+                default: 0
+            },
+            dotColorMax: {
+                type: Number,
+                default: 255
+            },
+            contentWidth: {
+                type: Number,
+                default: 112
+            },
+            contentHeight: {
+                type: Number,
+                default: 38
+            }
+        },
+        data() {
+            var checkEmail = (rule, value, callback) => {
+                if (value === '') {
+                    return callback(new Error('邮箱不能为空'));
+                }
+                setTimeout(() => {
+                    if (!Number.isInteger(value)) {
+                        callback(new Error('请输入数字值'));
+                    }
+                }, 1000);
+            };
+            var validatePass = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入密码'));
+                } else {
+                    if (this.ruleForm.checkPass !== '') {
+                        this.$refs.ruleForm.validateField('checkPass');
+                    }
+                    callback();
+                }
+            };
+            var validateVerifycode = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入验证码'))
+                } else if (value !== this.identify) {
+                    console.log('validateVerifycode:', value);
+                    callback(new Error('验证码不正确!'))
+                } else {
+                    console.log('validateVerifycode:', value);
+                    callback()
+                }
+            };
+            return {
+                ruleForm: {
+                    email: '',
+                    pass: '',
+                    identify: ''
+                },
+                rules: {
+                    email: [
+                        {required: true, message: '邮箱不能为空', trigger: 'blur'},
+                        {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change']},
+                        {validator: checkEmail, trigger: 'blur'}
+                    ],
+                    pass: [
+                        {required: true, message: '密码不能为空', trigger: 'blur'},
+                        {min: 6, max: 18, message: '请输入6至18位数字', trigger: 'blur'},
+                        {validator: validatePass, trigger: 'blur'}
+                    ],
+                    identify: [
+                        {required: true, message: '验证码不能为空', trigger: 'blur'},
+                        {min: 4, max: 4, message: '请输入4位数字', trigger: 'blur'},
+                        {validator: validateVerifycode, trigger: 'blur'}
+                    ]
+                }
+            };
+        },
+        methods: {
+            // 生成一个随机数
+            randomNum(min, max) {
+                return Math.floor(Math.random() * (max - min) + min)
+            },
+            // 生成一个随机的颜色
+            randomColor(min, max) {
+                var r = this.randomNum(min, max);
+                var g = this.randomNum(min, max);
+                var b = this.randomNum(min, max);
+                return 'rgb(' + r + ',' + g + ',' + b + ')'
+            },
+            drawPic() {
+                var canvas = document.getElementById('s-canvas');
+                var ctx = canvas.getContext('2d');
+                ctx.textBaseline = 'bottom';
+                // 绘制背景
+                ctx.fillStyle = this.randomColor(
+                    this.backgroundColorMin,
+                    this.backgroundColorMax
+                )
+                ctx.fillRect(0, 0, this.contentWidth, this.contentHeight);
+                // 绘制文字
+                for (let i = 0; i < this.identifyCode.length; i++) {
+                    this.drawText(ctx, this.identifyCode[i], i)
+                }
+                this.drawLine(ctx);
+                this.drawDot(ctx)
+            },
+            drawText(ctx, txt, i) {
+                ctx.fillStyle = this.randomColor(this.colorMin, this.colorMax)
+                ctx.font =
+                    this.randomNum(this.fontSizeMin, this.fontSizeMax) + 'px SimHei';
+                var x = (i + 1) * (this.contentWidth / (this.identifyCode.length + 1));
+                var y = this.randomNum(this.fontSizeMax, this.contentHeight - 5);
+                var deg = this.randomNum(-45, 45);
+                // 修改坐标原点和旋转角度
+                ctx.translate(x, y)
+                ctx.rotate(deg * Math.PI / 180);
+                ctx.fillText(txt, 0, 0)
+                // 恢复坐标原点和旋转角度
+                ctx.rotate(-deg * Math.PI / 180);
+                ctx.translate(-x, -y)
+            },
+            drawLine(ctx) {
+                // 绘制干扰线
+                for (let i = 0; i < 8; i++) {
+                    ctx.strokeStyle = this.randomColor(
+                        this.lineColorMin,
+                        this.lineColorMax
+                    );
+                    ctx.beginPath();
+                    ctx.moveTo(
+                        this.randomNum(0, this.contentWidth),
+                        this.randomNum(0, this.contentHeight)
+                    );
+                    ctx.lineTo(
+                        this.randomNum(0, this.contentWidth),
+                        this.randomNum(0, this.contentHeight)
+                    );
+                    ctx.stroke()
+                }
+            },
+            drawDot(ctx) {
+                // 绘制干扰点
+                for (let i = 0; i < 100; i++) {
+                    ctx.fillStyle = this.randomColor(0, 255)
+                    ctx.beginPath()
+                    ctx.arc(
+                        this.randomNum(0, this.contentWidth),
+                        this.randomNum(0, this.contentHeight),
+                        1,
+                        0,
+                        2 * Math.PI
+                    )
+                    ctx.fill()
+                }
+            }
+        },
+        watch: {
+            identifyCode() {
+                this.drawPic()
+            }
+        },
+        mounted() {
+            this.drawPic()
+        },
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    alert('submit!');
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
+        },
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
+        }
+    })
+
+</script>
+</html>

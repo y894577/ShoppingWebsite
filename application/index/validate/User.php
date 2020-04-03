@@ -9,7 +9,7 @@ use think\Validate;
 class User extends Validate
 {
     protected $rule = [
-        'name' => 'require|max:25',
+        'passwd' => 'require|between:6:12',
         'email' => 'email',
     ];
 

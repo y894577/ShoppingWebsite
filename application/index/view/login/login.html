@@ -25,7 +25,8 @@
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
                      class="demo-ruleForm">
                 <el-form-item label="邮箱" prop="email">
-                    <el-input type="email" v-model="ruleForm.email" autocomplete="off" style="width: 200px" id="email"></el-input>
+                    <el-input type="email" v-model="ruleForm.email" autocomplete="off" style="width: 200px"
+                              id="email"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="pass">
                     <el-input type="password" v-model="ruleForm.pass" autocomplete="off" id="passwd"
@@ -253,21 +254,26 @@
             //     this.drawPic()
             // },
             submitForm: function (formName) {
+                var that = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         axios({
                             method: 'post',
                             url: 'http://localhost:88/public/index.php/index/index/login',
-                            header: {
-                                "Content-Type": 'application/x-www-form-urlencoded;charest=UTF-8',
-                                'X-Requested-With': 'XMLHttpRequest'
-                            },
+                            // header: {
+                            //     "Content-Type": 'application/x-www-form-urlencoded;charest=UTF-8',
+                            //     'X-Requested-With': 'XMLHttpRequest'
+                            // },
                             data: {
                                 email: this.ruleForm.email,
                                 passwd: this.ruleForm.pass,
                             }
                         }).then(function (response) {
-                            console.log(response);
+                            console.log(response.data);
+                            if (response.data === 'success')
+                                window.location.href = "{:url('index/jump')}";
+                            else
+                                alert(response.data);
                         }).catch(function (error) {
                             console.log(error);
                         });

@@ -8,9 +8,9 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-use think\Route;
+//use think\Route;
 //Route::rule('/','index/view/index.php');
-Route::rule('/register', 'index/view/register.html');
+//Route::rule('/login', 'index/view/login.html');
 
 
 return [

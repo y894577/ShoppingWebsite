@@ -4,6 +4,8 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\Request;
+use think\Session;
+use think\View;
 
 class Index extends Controller
 {
@@ -12,19 +14,33 @@ class Index extends Controller
         return $this->fetch('login/login');
     }
 
-    public function login(Request $request)
+    public function jump()
     {
-//        print_r($request->param());
-
-        $email = $request->param('email');
-        $passwd = $request->param('passwd');
-        $reg = new register();
-        $reg = $reg->index($email,$passwd);
+        $v = new View();
+        $v->email = Session::get('email');
+        return $v->fetch('admin/admin');
     }
 
-    public function res()
+
+    public function login(Request $request)
     {
-        return;
+        $email = $request->param('email');
+        $passwd = $request->param('passwd');
+        echo 'success';
+        $log = new Login();
+        $msg = $log->login($email, $passwd);
+        if($msg === '登录成功'){
+            var_dump("success");
+        }
+    }
+
+    public function register(Request $request)
+    {
+        $email = $request->param('email');
+        $passwd = $request->param('passwd');
+        $checkpasswd = $request->param('checkpasswd');
+        $reg = new Register();
+        $reg->register($email, $passwd, $checkpasswd);
     }
 
 }

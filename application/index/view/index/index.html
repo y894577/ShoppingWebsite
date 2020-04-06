@@ -55,7 +55,7 @@
                         </div>
                     </el-col>
                     <el-col :span="1">
-                        <span>用户A</span>
+                        <span @click="jumpToAdmin">{$email}</span>
                     </el-col>
                 </el-row>
             </el-header>
@@ -140,6 +140,12 @@
         el: '#app',
         data: function () {
             return {visible: true}
+        },
+        methods: {
+            jumpToAdmin: function () {
+                //测试，需改
+                window.location.href = "{:url('index/jumpToShoppingCar')}";
+            }
         }
     });
 </script>

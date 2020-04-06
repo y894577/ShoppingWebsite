@@ -271,7 +271,7 @@
                         }).then(function (response) {
                             console.log(response.data);
                             if (response.data === 'success')
-                                window.location.href = "{:url('index/jump')}";
+                                window.location.href = "{:url('index/jumpToIndex')}";
                             else
                                 alert(response.data);
                         }).catch(function (error) {

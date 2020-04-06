@@ -2,6 +2,7 @@
 
 namespace app\index\controller;
 
+use app\index\model\User;
 use think\Controller;
 use think\Request;
 use think\Session;
@@ -14,11 +15,34 @@ class Index extends Controller
         return $this->fetch('login/login');
     }
 
-    public function jump()
+    public function jumpToIndex()
+    {
+//        $email = Session::get('email');
+//        $passwd = Session::get('passwd');
+
+        $v = new View();
+        $v->email = Session::get('email');
+
+        return $v->fetch('index/index');
+    }
+
+    public function jumpToAdmin()
     {
         $v = new View();
         $v->email = Session::get('email');
         return $v->fetch('admin/admin');
+    }
+
+    public function jumpToShoppingCar()
+    {
+        //获取shoppingList
+        $car = new ShoppingCar();
+        $list = $car->shopping(Session::get('email'));
+
+        $v = new View();
+        $v->email = Session::get('email');
+        $v->list = $list;
+        return $v->fetch('shoppingCar/shoppingCar');
     }
 
 
@@ -29,7 +53,7 @@ class Index extends Controller
         echo 'success';
         $log = new Login();
         $msg = $log->login($email, $passwd);
-        if($msg === '登录成功'){
+        if ($msg === '登录成功') {
             var_dump("success");
         }
     }
@@ -41,6 +65,12 @@ class Index extends Controller
         $checkpasswd = $request->param('checkpasswd');
         $reg = new Register();
         $reg->register($email, $passwd, $checkpasswd);
+    }
+
+    public function shopping($email)
+    {
+        $shop = new ShoppingCar();
+        $shop->shopping();
     }
 
 }

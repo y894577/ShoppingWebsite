@@ -4,6 +4,7 @@
 namespace app\index\controller;
 
 
+use app\index\model\RegisterModel;
 use think\Controller;
 use think\Validate;
 
@@ -33,7 +34,8 @@ class Register extends Controller
         if (!$result) {
             dump($validate->getError());
         } else {
-            $this->connectDB();
+            $reg = new RegisterModel();
+            $reg->connectDB($email,$passwd);
         }
     }
 }

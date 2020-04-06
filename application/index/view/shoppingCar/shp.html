@@ -41,7 +41,7 @@
         </el-header>
         <el-main style="margin: auto">
             <template>
-                <el-table :data="test" style="width: 100%"
+                <el-table :data="tableData" style="width: 100%"
                           border
                           stripe
                           highlight-current-row
@@ -52,12 +52,12 @@
                             type="selection">
                     </el-table-column>
                     <el-table-column
-                            prop="img"
+                            prop="date"
                             label="商品图片"
                             width="220">
                     </el-table-column>
                     <el-table-column
-                            prop="info"
+                            prop="name"
                             label="商品信息"
                             width="350">
                     </el-table-column>
@@ -67,18 +67,17 @@
                             width="180">
                     </el-table-column>
                     <el-table-column
-                            prop="number"
+                            prop="num"
                             label="数量"
                             width="180">
-<!--                        <template slot-scope="scope">-->
-<!--                            <el-input-number v-model="scope.row.num"-->
-<!--                                             type="number"-->
-<!--                                             @change="handleChange" :min="1" :max="s"-->
-<!--                                             size="mini"-->
-<!--                                             value=1-->
-<!--                                             label="描述文字">-->
-<!--                            </el-input-number>-->
-<!--                        </template>-->
+                        <template slot-scope="scope">
+                            <el-input-number v-model="scope.row.num"
+                                             type="number"
+                                             @change="handleChange" :min="1" :max="10"
+                                             size="mini"
+                                             value=1
+                                             label="描述文字"></el-input-number>
+                        </template>
 
                     </el-table-column>
                     <el-table-column
@@ -87,7 +86,7 @@
                             width="180">
                     </el-table-column>
                     <el-table-column
-                            prop="info"
+                            prop="name"
                             label="操作"
                             width="180"
                             fixed="right">
@@ -110,11 +109,6 @@
 <script>
     new Vue({
         el: '#app',
-        mounted: function () {
-            this.$nextTick(function () {
-                this.test = {$list};
-            })
-        },
         methods: {
             deleteRow(index, rows) {
                 rows.splice(index, 1);
@@ -150,7 +144,7 @@
                     price: 20,
                     num: 1
                 }],
-                test: []
+                test: {$list: allData}
             }
         }
     });

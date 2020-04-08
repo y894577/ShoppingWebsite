@@ -18,7 +18,7 @@ class ShoppingCar
     {
         $shp = new ShoppingCarModel();
         $result = $shp->searchList($email);
-        var_dump(json_encode($result));
+//        var_dump(json_encode($result));
         return json_encode($result);
     }
 

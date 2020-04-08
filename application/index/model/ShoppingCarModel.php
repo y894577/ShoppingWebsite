@@ -23,7 +23,6 @@ class ShoppingCarModel extends Model
 //            $goods->setInfo($item['info']);
 //            $goods->setPrice($item['price']);
 //            $goods->setNumber($item['number']);
-//
 //        }
         return $result;
     }

@@ -12,8 +12,9 @@ use think\Model;
 class ShoppingCarModel extends Model
 {
 
-    public function searchList($email){
-        $result= Db::table('shoppingCar')->where('email',$email)->select();
+    public function searchList($email)
+    {
+        $result = Db::table('shoppingCar')->where('email', $email)->select();
 //        var_dump($result);
 //        $list = new ShoppingCar();
 //        foreach ($result as $item){
@@ -25,5 +26,11 @@ class ShoppingCarModel extends Model
 //            $goods->setNumber($item['number']);
 //        }
         return $result;
+    }
+
+    public function updateList($ID, $value)
+    {
+
+        $result = Db::table('shoppingCar')->where('ID', $ID)->update(['number' => $value]);
     }
 }

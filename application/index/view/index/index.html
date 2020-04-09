@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <!-- import CSS -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <!--    <style>-->
-    <!--        @import "theme/index.css";-->
-    <!--    </style>-->
+    <link rel="stylesheet" href="/public/static/css/style.css">
 </head>
 
 <body>
@@ -118,7 +116,12 @@
                         </el-carousel>
                     </div>
                 </template>
-
+                <el-row >
+                    <el-col :span="6"><div class="index_div" @click="jumpToDetail('123abc')">a</div></el-col>
+                    <el-col :span="6"><div class="index_div">b</div></el-col>
+                    <el-col :span="6"><div class="index_div">c</div></el-col>
+                    <el-col :span="6"><div class="index_div">d</div></el-col>
+                </el-row>
             </el-main>
             <el-footer>
                 关于我们
@@ -138,13 +141,25 @@
 <script>
     new Vue({
         el: '#app',
-        data: function () {
-            return {visible: true}
+        data :function (){
+            return{
+                front: [
+
+                ],
+                bottom: [
+                    {ID: '123abc',name: '44444878', img: ''},
+                ],
+            }
         },
         methods: {
             jumpToAdmin: function () {
                 //测试，需改
                 window.location.href = "{:url('index/jumpToShoppingCar')}";
+            },
+            jumpToDetail: function (ID) {
+                var string = "{:url('index/jumpToDetail',['ID'=>'123abc'])}";
+                console.log(string);
+                window.location.href = string;
             }
         }
     });

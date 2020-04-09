@@ -70,19 +70,19 @@
                             prop="number"
                             label="数量"
                             width="180">
-                        <template slot-scope="scope">
-                            <el-input-number v-model="scope.row.number"
-                                             type="number"
-                                             @change="handleChange(scope.row.number)" :min="1" :max="99"
-                                             size="mini"
+<!--                        <template slot-scope="scope">-->
+<!--                            <el-input-number v-model="scope.row.number"-->
+<!--                                             type="number"-->
+<!--                                             @change="handleChange(scope.row.number,scope.row.ID)" :min="1" :max="99"-->
+<!--                                             size="mini"-->
 
-                                             label="描述文字">
-                            </el-input-number>
-                        </template>
+<!--                                             label="描述文字">-->
+<!--                            </el-input-number>-->
+<!--                        </template>-->
 
                     </el-table-column>
                     <el-table-column
-                            prop="price"
+                            prop="total"
                             label="总金额"
                             width="180">
                     </el-table-column>
@@ -114,19 +114,32 @@
         mounted: function () {
             this.$nextTick(function () {
                 this.carList = {$list};
+                this.calculate();
             })
         },
         methods: {
             deleteRow(index, rows) {
                 rows.splice(index, 1);
             },
-            handleChange(value) {
-                console.log(value);
+            handleChange(value, ID) {
+                console.log(ID);
+                this.calculate();
+                //下个版本一定.jpg
+                // window.location.href = "{:url('ShoppingCar/update',['ID'=>" + ID + ",'value'=>" + value + "])}";
+            },
+            calculate() {
+                let count = 0;
+                for (let items of this.carList) {
+                    let price = items.price;
+                    let number = items.number;
+                    items.total = price * number;
+                }
             }
         },
         data: function () {
             return {
-                carList: []
+                carList: [],
+                total: [],
             }
         }
     });

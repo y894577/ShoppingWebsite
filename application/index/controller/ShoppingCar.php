@@ -10,9 +10,6 @@ class ShoppingCar
 {
     public $list = array();
 
-//    public function add(){
-//        $this->list
-//    }
 
     public function shopping($email)
     {
@@ -20,6 +17,11 @@ class ShoppingCar
         $result = $shp->searchList($email);
 //        var_dump(json_encode($result));
         return json_encode($result);
+    }
+
+    public function update($ID,$value){
+        $shp = new ShoppingCarModel();
+        $shp->updateList($ID,$value);
     }
 
 }

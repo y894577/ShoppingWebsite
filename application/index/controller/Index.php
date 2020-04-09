@@ -17,9 +17,6 @@ class Index extends Controller
 
     public function jumpToIndex()
     {
-//        $email = Session::get('email');
-//        $passwd = Session::get('passwd');
-
         $v = new View();
         $v->email = Session::get('email');
 
@@ -43,6 +40,17 @@ class Index extends Controller
         $v->email = Session::get('email');
         $v->list = $list;
         return $v->fetch('shoppingCar/shoppingCar');
+    }
+
+    public function jumpToDetail($ID = null){
+        var_dump($ID);
+        $detail = new Detail();
+        $list = $detail->showDetail($ID);
+
+        $v = new View();
+        $v->email = Session::get('email');
+        $v->detail = $list;
+        return $v->fetch('itemDetail/itemDetail');
     }
 
 

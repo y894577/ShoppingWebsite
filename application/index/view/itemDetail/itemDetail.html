@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail</title>
+    <!-- import Vue before Element -->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="/public/static/css/style.css" type="text/css">
+</head>
+
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!-- import axios-->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.bootcss.com/url-search-params/0.10.0/url-search-params.js"></script>
+
+<body>
+<div id="app">
+    <el-container>
+        <el-header style="background:#409EFF;font-size: 12px;line-height: 60px;text-align: left;">
+
+            <el-row :gutter="10">
+                <el-col :span="1">
+                    <el-dropdown>
+                        <i class="el-icon-more-outline" style=""></i>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item @click="">登录</el-dropdown-item>
+                            <el-dropdown-item @click="">注销</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </el-col>
+                <el-col :span="1" style="margin-top: 10px">
+                    <div>
+                        <el-avatar
+                                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                    </div>
+                </el-col>
+                <el-col :span="1">
+                    <span>{$email}</span>
+                </el-col>
+            </el-row>
+        </el-header>
+
+        <el-main>
+            <el-row :gutter="20">
+                <el-col :span="3">
+                    <div>a</div>
+                </el-col>
+                <el-col :span="8" style="background: #5daf34">
+                    <div style="height: 500px;background: #dc6fff">
+                        pic
+                    </div>
+                </el-col>
+                <el-col :span="10" style="background: #2d6a88">
+                    <div style="height: 100px;background: #3a8ee6" name="title" class="detail_title_div">
+                        <span class="detail_title_font">
+<!--                            【官方新品】华为/HUAWEI MateBook 14 2020款 英特尔十代 i5+8GB/16GB+512GB SSD 独显笔记本电脑 Windows版-->
+                            {{detail[0].name}}
+                        </span>
+
+                    </div>
+
+                    <div style="height: 80px;background: #3a87ad" name="price" class="detail_price_div">
+                        <span class="detail_price_font">价格：</span>
+                        <span class="detail_price_font2">{{detail.price}}</span>
+                    </div>
+
+                    <div style="height: 300px;background: #409EFF" name="detail">
+                        <div name="info" style="height: 200px;background: #b3e19d" class="detail_info_div">
+<!--                            证书编号：2019010902251984证书状态：有效产品名称：笔记本电脑3C规格型号：KLVC-WAI9L，KLVC-WAH9L，KLVC-WFH9L, KLVC-WFE9L,-->
+<!--                            KLCZ...产品名称：Huawei/华为 MateBook 14...品牌: Huawei/华为型号: KLVC-WAH9L内存容量: 8GB/16GB机械硬盘容量:-->
+<!--                            无机械硬盘CPU: 第十代智能英特尔酷睿 i5-10210U 处理器屏幕尺寸: 14英寸显存容量: 2GB显卡类型: NVIDIA MX250操作系统: Windows10 64位-->
+<!--                            家庭版-->
+                            {{detail[0].info}}
+                        </div>
+
+                        <div name="number" style="height: 100px;background: #880000" class="detail_number_div">
+                                                        <span class="detail_number_font">数量</span>
+                            <el-input-number
+                                    v-model="num"
+                                    label="数量"
+                                    controls-position="right"
+                                    size="small"
+                                    @change="handleChange" :min="1" :max="10">
+                            </el-input-number>
+                        </div>
+
+                        <div style="height: 100px;background: #ff5e18" name="button" class="detail_button_div">
+                            <el-button type="primary" plain class="detail_button_button">加入购物车</el-button>
+                            <el-button type="primary" plain class="detail_button_button">立即购买</el-button>
+                        </div>
+                    </div>
+                </el-col>
+                <el-col :span="3">
+                    <div>d</div>
+                </el-col>
+            </el-row>
+        </el-main>
+
+
+        <el-footer>
+            关于我们
+        </el-footer>
+
+    </el-container>
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        mounted: function () {
+            this.$nextTick(function () {
+                this.detail = {$detail};
+                console.log(this.detail[0].info);
+            });
+        },
+        method:{
+            handleChange(value) {
+                console.log(value);
+            }
+        },
+        data: function () {
+            return{
+                detail: [],
+                num: 1
+            }
+        }
+    });
+</script>
+</html>

@@ -9,6 +9,9 @@
     <!-- import JavaScript -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
+<!-- import axios-->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.bootcss.com/url-search-params/0.10.0/url-search-params.js"></script>
 
 <body>
 <div id="app">
@@ -57,7 +60,7 @@
                             width="220">
                     </el-table-column>
                     <el-table-column
-                            prop="info"
+                            prop="name"
                             label="商品信息"
                             width="350">
                     </el-table-column>
@@ -70,15 +73,15 @@
                             prop="number"
                             label="数量"
                             width="180">
-<!--                        <template slot-scope="scope">-->
-<!--                            <el-input-number v-model="scope.row.number"-->
-<!--                                             type="number"-->
-<!--                                             @change="handleChange(scope.row.number,scope.row.ID)" :min="1" :max="99"-->
-<!--                                             size="mini"-->
+                        <!--                        <template slot-scope="scope">-->
+                        <!--                            <el-input-number v-model="scope.row.number"-->
+                        <!--                                             type="number"-->
+                        <!--                                             @change="handleChange(scope.row.number,scope.row.ID)" :min="1" :max="99"-->
+                        <!--                                             size="mini"-->
 
-<!--                                             label="描述文字">-->
-<!--                            </el-input-number>-->
-<!--                        </template>-->
+                        <!--                                             label="描述文字">-->
+                        <!--                            </el-input-number>-->
+                        <!--                        </template>-->
 
                     </el-table-column>
                     <el-table-column
@@ -93,7 +96,7 @@
                             fixed="right">
                         <template slot-scope="scope">
                             <el-button
-                                    @click.native.prevent="deleteRow(scope.$index, tableData)"
+                                    @click.native.prevent="deleteRow(scope.$index, carList)"
                                     type="text"
                                     size="small">
                                 删除
@@ -120,6 +123,18 @@
         methods: {
             deleteRow(index, rows) {
                 rows.splice(index, 1);
+                console.log(this.carList[index].ID);
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:88/public/index.php/index/index/deleteGoods',
+                    data: {
+                        ID: this.carList[index].ID
+                    }
+                }).then(function (response) {
+                    console.log(response)
+                }).catch(function (error) {
+                    console.log(error)
+                });
             },
             handleChange(value, ID) {
                 console.log(ID);

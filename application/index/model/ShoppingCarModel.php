@@ -14,8 +14,7 @@ class ShoppingCarModel extends Model
 
     public function searchList($email)
     {
-        $result = Db::table('shoppingCar')->where('email', $email)->select();
-//        var_dump($result);
+        $result = Db::table('shoppingcar')->where('email', $email)->select();
 //        $list = new ShoppingCar();
 //        foreach ($result as $item){
 //            $goods = new Goods();
@@ -28,9 +27,32 @@ class ShoppingCarModel extends Model
         return $result;
     }
 
-    public function updateList($ID, $value)
+    //查找指定条目
+    public function searchGoods($ID, $email)
     {
-
-        $result = Db::table('shoppingCar')->where('ID', $ID)->update(['number' => $value]);
+        $result = Db::table('shoppingcar')->where('ID', $ID)->where('email', $email)->select();
+        return $result;
     }
+
+    //更新数量
+    public function updateList($email, $ID, $value)
+    {
+        $result = Db::table('shoppingcar')->where('ID', $ID)->update(['number' => $value]);
+        return $result;
+    }
+
+    //添加数量
+    public function addList($data)
+    {
+        $result = Db::table('shoppingCar')->insert($data);
+        return $result;
+    }
+
+    //删除购物车
+    public function deleted($email, $ID)
+    {
+        $result = Db::table('shoppingcar')->where('ID', $ID)->where('email', $email)->delete();
+        return $result;
+    }
+
 }

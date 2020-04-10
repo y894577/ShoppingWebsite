@@ -68,15 +68,15 @@
 
                     <div style="height: 300px;background: #409EFF" name="detail">
                         <div name="info" style="height: 200px;background: #b3e19d" class="detail_info_div">
-<!--                            证书编号：2019010902251984证书状态：有效产品名称：笔记本电脑3C规格型号：KLVC-WAI9L，KLVC-WAH9L，KLVC-WFH9L, KLVC-WFE9L,-->
-<!--                            KLCZ...产品名称：Huawei/华为 MateBook 14...品牌: Huawei/华为型号: KLVC-WAH9L内存容量: 8GB/16GB机械硬盘容量:-->
-<!--                            无机械硬盘CPU: 第十代智能英特尔酷睿 i5-10210U 处理器屏幕尺寸: 14英寸显存容量: 2GB显卡类型: NVIDIA MX250操作系统: Windows10 64位-->
-<!--                            家庭版-->
+                            <!--                            证书编号：2019010902251984证书状态：有效产品名称：笔记本电脑3C规格型号：KLVC-WAI9L，KLVC-WAH9L，KLVC-WFH9L, KLVC-WFE9L,-->
+                            <!--                            KLCZ...产品名称：Huawei/华为 MateBook 14...品牌: Huawei/华为型号: KLVC-WAH9L内存容量: 8GB/16GB机械硬盘容量:-->
+                            <!--                            无机械硬盘CPU: 第十代智能英特尔酷睿 i5-10210U 处理器屏幕尺寸: 14英寸显存容量: 2GB显卡类型: NVIDIA MX250操作系统: Windows10 64位-->
+                            <!--                            家庭版-->
                             {{detail[0].info}}
                         </div>
 
                         <div name="number" style="height: 100px;background: #880000" class="detail_number_div">
-                                                        <span class="detail_number_font">数量</span>
+                            <span class="detail_number_font">数量</span>
                             <el-input-number
                                     v-model="num"
                                     label="数量"
@@ -87,7 +87,9 @@
                         </div>
 
                         <div style="height: 100px;background: #ff5e18" name="button" class="detail_button_div">
-                            <el-button type="primary" plain class="detail_button_button">加入购物车</el-button>
+                            <el-button type="primary" plain class="detail_button_button" @click="addToShoppingCar">
+                                加入购物车
+                            </el-button>
                             <el-button type="primary" plain class="detail_button_button">立即购买</el-button>
                         </div>
                     </div>
@@ -115,13 +117,37 @@
                 console.log(this.detail[0].info);
             });
         },
-        method:{
+        methods: {
             handleChange(value) {
                 console.log(value);
+            },
+            addToShoppingCar() {
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:88/public/index.php/index/index/addGoods',
+                    // header:{
+                    //     "Content-Type": 'application/json',
+                    //     'X-Requested-With': 'XMLHttpRequest'
+                    // },
+                    data: {
+                        ID: this.detail[0].ID,
+                        name: this.detail[0].name,
+                        info: this.detail[0].info,
+                        img: this.detail[0].img,
+                        price: this.detail[0].price,
+                        num: this.num,
+                    }
+                }).then(function (response) {
+                    console.log(response);
+                    alert(response.data)
+                }).catch(function (error) {
+                    console.log(error);
+                    alert("添加失败！")
+                });
             }
         },
         data: function () {
-            return{
+            return {
                 detail: [],
                 num: 1
             }

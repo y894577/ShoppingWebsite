@@ -2,10 +2,13 @@
 
 namespace app\index\controller;
 
+use app\index\model\ShoppingCarModel;
 use app\index\model\User;
+use think\Console;
 use think\Controller;
 use think\Request;
 use think\Session;
+use think\Url;
 use think\View;
 
 class Index extends Controller
@@ -39,20 +42,50 @@ class Index extends Controller
         $v = new View();
         $v->email = Session::get('email');
         $v->list = $list;
+
         return $v->fetch('shoppingCar/shoppingCar');
     }
 
-    public function jumpToDetail($ID = null){
+    public function jumpToDetail(Request $request)
+    {
+        $ID = $request->param('ID');
+        $detail = new Detail();
+        $list = $detail->showDetail($ID);
+        $v = new View();
+        $v->email = Session::get('email');
+        $v->detail = $list;
+
+        return Url::build('index/detail','ID=123abc');
+    }
+
+    public function detail($ID){
         var_dump($ID);
         $detail = new Detail();
         $list = $detail->showDetail($ID);
-
         $v = new View();
         $v->email = Session::get('email');
         $v->detail = $list;
         return $v->fetch('itemDetail/itemDetail');
     }
 
+    public function addGoods(Request $request){
+        $email = Session::get('email');
+        $ID = $request->param('ID');
+        $price = $request->param('price');
+        $name = $request->param('name');
+        $number = $request->param('num');
+        $img = $request->param('img');
+        $data = ['email'=>$email,'ID'=>$ID,'name'=>$name,'price'=>$price,'number'=>$number,'img'=>$img];
+        $car = new ShoppingCar();
+        $car->addGoods($data);
+    }
+
+    public function deleteGoods($ID)
+    {
+        $email = Session::get('email');
+        $model = new ShoppingCarModel();
+        $model->deleted($email, $ID);
+    }
 
     public function login(Request $request)
     {
@@ -75,10 +108,5 @@ class Index extends Controller
         $reg->register($email, $passwd, $checkpasswd);
     }
 
-    public function shopping($email)
-    {
-        $shop = new ShoppingCar();
-        $shop->shopping();
-    }
 
 }

@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="/public/static/css/style.css">
 </head>
-
+<!-- import axios-->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.bootcss.com/url-search-params/0.10.0/url-search-params.js"></script>
 <body>
 <div id="app">
     <el-container style="height: 800px; border: 1px solid #eee">
@@ -116,11 +118,19 @@
                         </el-carousel>
                     </div>
                 </template>
-                <el-row >
-                    <el-col :span="6"><div class="index_div" @click="jumpToDetail('123abc')">a</div></el-col>
-                    <el-col :span="6"><div class="index_div">b</div></el-col>
-                    <el-col :span="6"><div class="index_div">c</div></el-col>
-                    <el-col :span="6"><div class="index_div">d</div></el-col>
+                <el-row>
+                    <el-col :span="6">
+                        <div class="index_div" @click="jumpToDetail('123abc')">a</div>
+                    </el-col>
+                    <el-col :span="6">
+                        <div class="index_div">b</div>
+                    </el-col>
+                    <el-col :span="6">
+                        <div class="index_div">c</div>
+                    </el-col>
+                    <el-col :span="6">
+                        <div class="index_div">d</div>
+                    </el-col>
                 </el-row>
             </el-main>
             <el-footer>
@@ -141,13 +151,11 @@
 <script>
     new Vue({
         el: '#app',
-        data :function (){
-            return{
-                front: [
-
-                ],
+        data: function () {
+            return {
+                front: [],
                 bottom: [
-                    {ID: '123abc',name: '44444878', img: ''},
+                    {ID: '123abc', name: '44444878', img: ''},
                 ],
             }
         },
@@ -157,9 +165,22 @@
                 window.location.href = "{:url('index/jumpToShoppingCar')}";
             },
             jumpToDetail: function (ID) {
-                var string = "{:url('index/jumpToDetail',['ID'=>'123abc'])}";
-                console.log(string);
-                window.location.href = string;
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:88/public/index.php/index/index/jumpToDetail',
+                    // header: {
+                    //     "Content-Type": 'application/x-www-form-urlencoded;charest=UTF-8',
+                    //     'X-Requested-With': 'XMLHttpRequest'
+                    // },
+                    data: {
+                        ID: '123abc'
+                    }
+                }).then(function (response) {
+                    console.log(response);
+                    window.location.href = response.data;
+                }).catch(function (error) {
+                    console.log(error)
+                });
             }
         }
     });

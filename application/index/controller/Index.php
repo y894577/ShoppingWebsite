@@ -3,9 +3,8 @@
 namespace app\index\controller;
 
 use app\index\model\ShoppingCarModel;
-use app\index\model\User;
-use think\Console;
 use think\Controller;
+use think\Exception;
 use think\Request;
 use think\Session;
 use think\Url;
@@ -16,6 +15,11 @@ class Index extends Controller
     public function index()
     {
         return $this->fetch('login/login');
+    }
+
+    public function jumpToRegister()
+    {
+        return $this->fetch('registers/registers');
     }
 
     public function jumpToIndex()
@@ -55,10 +59,24 @@ class Index extends Controller
         $v->email = Session::get('email');
         $v->detail = $list;
 
-        return Url::build('index/detail','ID=123abc');
+        return Url::build('index/detail', 'ID=123abc');
     }
 
-    public function detail($ID){
+    public function jumpToOrder()
+    {
+        $v = new View();
+        $v->email = Session::get('email');
+        return $v->fetch('order/order');
+    }
+
+    public function jumpToPayment(){
+        $v = new View();
+        $v->email = Session::get('email');
+        return $v->fetch('payment/payment');
+    }
+
+    public function detail($ID)
+    {
         var_dump($ID);
         $detail = new Detail();
         $list = $detail->showDetail($ID);
@@ -68,14 +86,15 @@ class Index extends Controller
         return $v->fetch('itemDetail/itemDetail');
     }
 
-    public function addGoods(Request $request){
+    public function addGoods(Request $request)
+    {
         $email = Session::get('email');
         $ID = $request->param('ID');
         $price = $request->param('price');
         $name = $request->param('name');
         $number = $request->param('num');
         $img = $request->param('img');
-        $data = ['email'=>$email,'ID'=>$ID,'name'=>$name,'price'=>$price,'number'=>$number,'img'=>$img];
+        $data = ['email' => $email, 'ID' => $ID, 'name' => $name, 'price' => $price, 'number' => $number, 'img' => $img];
         $car = new ShoppingCar();
         $car->addGoods($data);
     }
@@ -97,6 +116,13 @@ class Index extends Controller
         if ($msg === '登录成功') {
             var_dump("success");
         }
+    }
+
+
+    public function logout()
+    {
+        session(null);
+        return $this->fetch('login/login');
     }
 
     public function register(Request $request)

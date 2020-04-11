@@ -3,43 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<link rel="stylesheet" href="/public/static/css/style.css">
 <!-- import Vue before Element -->
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="/public/static/js/vue.js"></script>
 <!-- import JavaScript -->
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="/public/static/js/index.js"></script>
 <!-- import axios-->
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="https://cdn.bootcss.com/url-search-params/0.10.0/url-search-params.js"></script>
+<script src="/public/static/js/axios.min.js"></script>
+<script src="/public/static/js/url-search-params.js"></script>
 <body>
 <div id="app">
-    <el-container style="display: flex;justify-content: center;align-items: center;">
-        <div>
+    <el-container style="display: flex;justify-content: center;margin-top: 100px">
+        <div style="font-family: 'Microsoft YaHei UI';font-size: 50px;color: #2d6a88">
+            注 册
+        </div>
+    </el-container>
+    <el-container style="position: relative;justify-content: center;align-items: center;margin-top: 50px">
+        <div style="width: 500px;padding-top: 30px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)">
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
-                     class="demo-ruleForm">
+                     class="demo-ruleForm" style="position: relative;left: 11%;">
                 <el-form-item label="邮箱" prop="email"
                               :rules="[{ required: true, message: '请输入邮箱地址', trigger: 'blur' },
                               { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }]">
-                    <el-input type="email" v-model="ruleForm.email" autocomplete="off"></el-input>
+                    <el-input type="email" v-model="ruleForm.email" autocomplete="off" style="width: 200px"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="pass"
                               :rules="[{ required: true, message: '密码不能为空', trigger: 'blur' },
                               {min: 6, max: 18, message: '请输入6至18位数字', trigger: 'blur' }]">
-                    <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+                    <el-input type="password" v-model="ruleForm.pass" autocomplete="off"
+                              style="width: 200px"></el-input>
                 </el-form-item>
                 <el-form-item label="确认密码" prop="checkPass"
                               :rules="[{ required: true, message: '确认密码不能为空', trigger: 'blur' },
                               {min: 6, max: 18, message: '请输入6至18位数字', trigger: 'blur' }]">
-                    <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+                    <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"
+                              style="width: 200px"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('ruleForm')">注册提交</el-button>
+                    <el-button type="primary" @click="submitForm('ruleForm')">注册</el-button>
                     <el-button @click="resetForm('ruleForm')">重置</el-button>
                 </el-form-item>
             </el-form>
         </div>
+
     </el-container>
+    <div style="position: absolute;left: 52%;margin-top: 40px">
+        <el-link type="info" @click="login">已有账号，点击登录</el-link>
+    </div>
 </div>
 </body>
 <script>
@@ -95,6 +107,9 @@
             };
         },
         methods: {
+            login: function () {
+                window.location.href = "{:url('index/index')}";
+            },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {

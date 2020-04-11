@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order</title>
+</head>
+
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<link rel="stylesheet" href="/public/static/css/style.css">
+<!-- import Vue before Element -->
+<script src="/public/static/js/vue.js"></script>
+<!-- import JavaScript -->
+<script src="/public/static/js/index.js"></script>
+<!-- import axios-->
+<script src="/public/static/js/axios.min.js"></script>
+<script src="/public/static/js/url-search-params.js"></script>
+
+<body>
+<div id="app">
+    <el-container>
+        <el-header style="background:#409EFF;font-size: 12px;line-height: 60px;text-align: left;">
+            <el-row :gutter="10">
+                <el-col :span="1">
+                    <el-dropdown>
+                        <i class="el-icon-more-outline" style=""></i>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item @click="login">登录</el-dropdown-item>
+                            <el-dropdown-item @click="logout">注销</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </el-col>
+                <el-col :span="1" style="margin-top: 10px">
+                    <div>
+                        <el-avatar
+                                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                    </div>
+                </el-col>
+                <el-col :span="1">
+                    <span>{$email}</span>
+                </el-col>
+            </el-row>
+        </el-header>
+
+        <el-container>
+            <!--            纯粹是为了垂直排列-->
+            <el-header style="width: 70%;margin: auto;margin-top: 30px;">
+                <el-steps :active="0" finish-status="success">
+                    <el-step title="提交订单"></el-step>
+                    <el-step title="付款"></el-step>
+                    <el-step title="确认收货"></el-step>
+                </el-steps>
+            </el-header>
+
+            <el-main>
+                <el-divider content-position="left"><span style="color: #99a9bf;font-size: 20px">确认收货地址</span>
+                </el-divider>
+                <el-card style="width: 700px;margin:auto;">
+                    <el-form ref="form" :model="form" label-width="80px">
+                        <el-form-item label="地址">
+                            <el-input v-model="form.name" type="textarea"></el-input>
+                        </el-form-item>
+                    </el-form>
+                </el-card>
+            </el-main>
+
+            <el-main>
+                <el-divider content-position="left"><span style="color: #99a9bf;font-size: 20px">确认订单信息</span>
+                </el-divider>
+                <el-card style="width: 85%;margin: auto">
+                    <el-main style="margin: auto">
+                        <template>
+                            <el-table :data="carList" style="width: 100%"
+                                      v-loading="loading"
+                                      border
+                                      stripe
+                                      highlight-current-row
+                                      show-summary>
+                                <el-table-column
+                                        prop="img"
+                                        label="商品图片"
+                                        width="220">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="name"
+                                        label="商品信息"
+                                        width="350">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="price"
+                                        label="价格"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="number"
+                                        label="数量"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="total"
+                                        label="总金额"
+                                        width="180">
+                                </el-table-column>
+                            </el-table>
+                        </template>
+                    </el-main>
+                </el-card>
+            </el-main>
+
+            <el-button type="primary" style="width: 200px;margin: auto;margin-top: 30px" @click="submitOrder">提交订单
+            </el-button>
+
+        </el-container>
+
+    </el-container>
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            form: '',
+        },
+        methods: {
+            submitOrder: function () {
+                this.$confirm('是否确认提交该订单?', '确认订单', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'info',
+                    center: true
+                }).then(() => {
+                    this.$alert('', '提交成功', {
+                        confirmButtonText: '确定',
+                        center: true,
+                        callback: action => {
+                            window.location.href = "{:url('index/jumpToPayment')}"
+                        }
+                    });
+                });
+
+
+            }
+        }
+
+    })
+</script>
+</html>

@@ -35,6 +35,4 @@ class LoginModel extends Model
             }
         }
     }
-
-
 }

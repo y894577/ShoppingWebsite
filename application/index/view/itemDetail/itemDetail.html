@@ -24,8 +24,8 @@
                     <el-dropdown>
                         <i class="el-icon-more-outline" style=""></i>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item @click="">登录</el-dropdown-item>
-                            <el-dropdown-item @click="">注销</el-dropdown-item>
+                            <el-dropdown-item @click="login">登录</el-dropdown-item>
+                            <el-dropdown-item @click="logout">注销</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </el-col>
@@ -89,12 +89,8 @@
                             <el-button type="primary" plain class="detail_button_button" @click="addToShoppingCar">
                                 加入购物车
                             </el-button>
-<<<<<<< HEAD
                             <el-button type="primary" plain class="detail_button_button" @click="payment">立即购买
                             </el-button>
-=======
-                            <el-button type="primary" plain class="detail_button_button">立即购买</el-button>
->>>>>>> c6470a4929d69e272d38705efef41dd2c9f79f7f
                         </div>
                     </div>
                 </el-col>

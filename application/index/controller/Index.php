@@ -26,6 +26,11 @@ class Index extends Controller
         return $v->fetch('index/index');
     }
 
+    public function jumpToRegister()
+    {
+        return $this->fetch('registers/registers');
+    }
+
     public function jumpToAdmin()
     {
         $v = new View();
@@ -113,6 +118,12 @@ class Index extends Controller
         if ($msg === '登录成功') {
             var_dump("success");
         }
+    }
+
+    public function logout()
+    {
+        session(null);
+        return $this->fetch('login/login');
     }
 
     public function register(Request $request)

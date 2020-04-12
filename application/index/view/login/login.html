@@ -50,6 +50,9 @@
             </el-form>
         </div>
     </el-container>
+    <div style="position: absolute;left: 52%;margin-top: 40px">
+        <el-link type="info" @click="register">没有账号？点击注册</el-link>
+    </div>
 </div>
 </body>
 <script>
@@ -253,6 +256,9 @@
             // mounted() {
             //     this.drawPic()
             // },
+            register: function () {
+                window.location.href = "{:url('index/jumpToRegister')}"
+            },
             submitForm: function (formName) {
                 var that = this;
                 this.$refs[formName].validate((valid) => {

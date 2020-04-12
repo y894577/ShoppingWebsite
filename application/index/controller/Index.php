@@ -2,6 +2,7 @@
 
 namespace app\index\controller;
 
+use app\index\model\SearchModel;
 use app\index\model\ShoppingCarModel;
 use app\index\model\User;
 use think\Console;
@@ -63,7 +64,20 @@ class Index extends Controller
     {
         $v = new View();
         $v->email = Session::get('email');
+
+        $car = new ShoppingCar();
+        $list = $car->shopping(Session::get('email'));
+        $v->list = $list;
+
         return $v->fetch('order/order');
+    }
+
+    public function jumpToSearch(Request $request)
+    {
+        $item = $request->param('item');
+        $string = 'item=' . $item;
+
+        return Url::build('index/search', $string);
     }
 
     public function jumpToPayment()
@@ -74,9 +88,8 @@ class Index extends Controller
     }
 
 
-    public function detail($ID){
-
-        var_dump($ID);
+    public function detail($ID)
+    {
         $detail = new Detail();
         $list = $detail->showDetail($ID);
         $comment = new Comment();
@@ -89,14 +102,29 @@ class Index extends Controller
         return $v->fetch('itemDetail/itemDetail');
     }
 
-    public function addGoods(Request $request){
+    public function search($item)
+    {
+        $model = new Search();
+        $result = $model->searchAll($item);
+
+        $v = new View();
+        $v->email = Session::get('email');
+        $v->result = $result;
+
+        return $v->fetch('search/search');
+
+        return $v->fetch('itemDetail/itemDetail');
+    }
+
+    public function addGoods(Request $request)
+    {
         $email = Session::get('email');
         $ID = $request->param('ID');
         $price = $request->param('price');
         $name = $request->param('name');
         $number = $request->param('num');
         $img = $request->param('img');
-        $data = ['email'=>$email,'ID'=>$ID,'name'=>$name,'price'=>$price,'number'=>$number,'img'=>$img];
+        $data = ['email' => $email, 'ID' => $ID, 'name' => $name, 'price' => $price, 'number' => $number, 'img' => $img];
         $car = new ShoppingCar();
         $car->addGoods($data);
     }

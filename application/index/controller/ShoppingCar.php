@@ -45,9 +45,8 @@ class ShoppingCar
                 echo("更新购物车成功！");
         } else {
             //若该商品不在购物车内，则添加
-            $result = $model->addList($data);
-            if ($result)
-                echo("添加成功！");
+            $model->addList($data);
+            echo("添加成功！");
         }
     }
 

@@ -27,21 +27,21 @@
             <el-container style="position: relative;justify-content: center;align-items: center;margin-top: 50px">
                 <div style="width: 500px;padding-top: 30px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)">
                     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
-                             style="position: relative;left: 11%;">>
+                             style="position: relative;left: 11%;">
                         <el-form-item label="邮箱" prop="email"
                                       :rules="[{ required: true, message: '请输入邮箱地址', trigger: 'blur' },
                               { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }]">
-                            <el-input type="email" v-model="ruleForm.email" autocomplete="off"></el-input>
+                            <el-input type="email" v-model="ruleForm.email" autocomplete="off" style="width: 200px"></el-input>
                         </el-form-item>
                         <el-form-item label="密码" prop="pass"
                                       :rules="[{ required: true, message: '密码不能为空', trigger: 'blur' },
                               {min: 6, max: 18, message: '请输入6至18位数字', trigger: 'blur' }]">
-                            <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+                            <el-input type="password" v-model="ruleForm.pass" autocomplete="off" style="width: 200px"></el-input>
                         </el-form-item>
                         <el-form-item label="确认密码" prop="checkPass"
                                       :rules="[{ required: true, message: '确认密码不能为空', trigger: 'blur' },
                               {min: 6, max: 18, message: '请输入6至18位数字', trigger: 'blur' }]">
-                            <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+                            <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" style="width: 200px"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('ruleForm')">注册</el-button>

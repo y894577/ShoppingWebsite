@@ -5,7 +5,6 @@ namespace app\index\controller;
 
 use app\index\model\LoginModel;
 use think\Controller;
-use think\Session;
 use think\Validate;
 
 class Login extends Controller
@@ -38,5 +37,4 @@ class Login extends Controller
             $log->connectDB($email, $passwd);
         }
     }
-
 }

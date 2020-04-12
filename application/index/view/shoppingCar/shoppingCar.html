@@ -107,7 +107,9 @@
                     </el-table-column>
                 </el-table>
             </template>
-            <el-button type="primary" plain style="margin-top: 50px;float: right;margin-right: 50px">提交订单</el-button>
+            <el-button type="primary" plain style="margin-top: 50px;float: right;margin-right: 50px"
+                       @click="submitOrder">提交订单
+            </el-button>
         </el-main>
     </el-container>
 </div>
@@ -123,6 +125,9 @@
             })
         },
         methods: {
+            submitOrder: function () {
+              window.location.href = "{:url('index/jumpToOrder')}";
+            },
             login: function () {
                 window.location.href = "{:url('index/index')}";
             },

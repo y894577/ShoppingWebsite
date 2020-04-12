@@ -50,6 +50,49 @@
                     <el-step title="确认收货"></el-step>
                 </el-steps>
             </el-header>
+
+            <el-main>
+                <el-divider content-position="left"><span style="color: #99a9bf;font-size: 20px">支付方式</span>
+                </el-divider>
+                <el-card style="width: 70%;margin: auto">
+                    <el-row :gutter="20">
+                        <el-col :span="6">
+                            <el-button style="margin:auto;display: flex" type="success" plain>微信</el-button>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-button style="margin:auto;display: flex" type="primary" plain>支付宝</el-button>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-button style="margin:auto;display: flex" type="warning" plain>银联</el-button>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-button style="margin:auto;display: flex" type="info" plain>其他</el-button>
+                        </el-col>
+                    </el-row>
+                </el-card>
+            </el-main>
+
+            <el-main>
+                <el-divider content-position="left"><span style="color: #99a9bf;font-size: 20px">支付信息</span>
+                </el-divider>
+                <el-card style="width: 50%;margin: auto">
+
+                    <el-form ref="form" :model="form" label-width="80px" style="margin: auto;display: flex">
+                        <div style="margin: auto">
+                            <el-form-item label="支付账号" style="width: 300px">
+                                <el-input v-model="form.name"></el-input>
+                            </el-form-item>
+                            <el-form-item label="支付密码" style="width: 300px">
+                                <el-input v-model="form.name"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-form>
+                </el-card>
+            </el-main>
+            <el-main>
+                <el-button round style="width: 100px;position: relative;left:65%" type="primary">支付</el-button>
+            </el-main>
+
         </el-container>
     </el-container>
 </div>
@@ -58,6 +101,9 @@
 <script>
     new Vue({
         el: '#app',
+        data: {
+            form: ''
+        }
     })
 </script>
 </html>

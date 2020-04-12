@@ -53,13 +53,9 @@ class Index extends Controller
     public function jumpToDetail(Request $request)
     {
         $ID = $request->param('ID');
-        $detail = new Detail();
-        $list = $detail->showDetail($ID);
-        $v = new View();
-        $v->email = Session::get('email');
-        $v->detail = $list;
+        $string = 'ID=' . $ID;
 
-        return Url::build('index/detail', 'ID=123abc');
+        return Url::build('index/detail', $string);
     }
 
     public function jumpToOrder()
@@ -69,7 +65,8 @@ class Index extends Controller
         return $v->fetch('order/order');
     }
 
-    public function jumpToPayment(){
+    public function jumpToPayment()
+    {
         $v = new View();
         $v->email = Session::get('email');
         return $v->fetch('payment/payment');
@@ -80,9 +77,13 @@ class Index extends Controller
         var_dump($ID);
         $detail = new Detail();
         $list = $detail->showDetail($ID);
+        $comment = new Comment();
+        $list2 = $comment->showComment($ID);
         $v = new View();
         $v->email = Session::get('email');
         $v->detail = $list;
+        $v->comment = $list2;
+
         return $v->fetch('itemDetail/itemDetail');
     }
 

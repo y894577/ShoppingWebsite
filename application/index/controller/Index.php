@@ -110,10 +110,7 @@ class Index extends Controller
         $v = new View();
         $v->email = Session::get('email');
         $v->result = $result;
-
         return $v->fetch('search/search');
-
-        return $v->fetch('itemDetail/itemDetail');
     }
 
     public function addGoods(Request $request)

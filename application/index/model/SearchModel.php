@@ -10,8 +10,8 @@ class SearchModel
 {
     public function search($item)
     {
-        $where['name'] = array('like', '%{$' . $item . '}%');
-        $result = Db::table('goods')->where('');
+        $where['name'] = array('like', '%' . $item . '%');
+        $result = Db::table('goods')->where($where)->select();
         return $result;
     }
 }

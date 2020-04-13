@@ -37,7 +37,7 @@
                     </div>
                 </el-col>
                 <el-col :span="1">
-                    <span @click="jumpToAdmin">{$email}</span>
+                    <span @click="">{$email}</span>
                 </el-col>
             </el-row>
         </el-header>
@@ -47,19 +47,24 @@
                     <el-input v-model="input" placeholder="请输入内容"></el-input>
                 </el-col>
                 <el-col :span="6">
-                    <el-button @click="search()">搜索</el-button>
+                    <el-button @click="">搜索</el-button>
                 </el-col>
             </el-row>
 
             <el-main style="overflow: inherit">
-                <el-card class="box-card" v-for="item in itemList" style="margin-bottom: 20px">
+                <el-card class="box-card" v-for="item in itemList" style="margin: auto;margin-top:40px;width: 75%;">
                     <div slot="header">
-                        <span>{{item.name}}</span>
+                        <span style="font-size: 25px;color: #303133">{{item.name}}</span>
+                        <div style="float: right;font-size: 12px;color: #409EFF;margin-top: 10px">
+                            <span :value="item.ID" @click="jumpToDetail(item.ID)">查看详情</span>
+                        </div>
                     </div>
-                    <div>
+                    <div style="color: #606266">
                         {{item.info}}
                     </div>
+
                 </el-card>
+                <div style="display: table;margin: auto;margin-top: 10%;color: #99a9bf" v-if="show">暂无搜索结果</div>
             </el-main>
         </el-main>
     </el-container>
@@ -73,11 +78,29 @@
             this.$nextTick(function () {
                 this.itemList = {$result};
                 console.log(this.itemList);
+                if (this.itemList.length !== 0)
+                    this.show = false
             });
         },
         data: {
-
-            itemList: []
+            itemList: [],
+            show: true
+        },
+        methods: {
+            jumpToDetail: function (value) {
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:88/public/index.php/index/index/jumpToDetail',
+                    data: {
+                        ID: value
+                    }
+                }).then(function (response) {
+                    console.log(response);
+                    window.location.href = response.data;
+                }).catch(function (error) {
+                    console.log(error)
+                });
+            }
         }
     });
 </script>

@@ -5,8 +5,10 @@ namespace app\index\controller;
 use app\index\model\SearchModel;
 use app\index\model\ShoppingCarModel;
 use app\index\model\User;
+use app\index\model\UserModel;
 use think\Console;
 use think\Controller;
+use think\Db;
 use think\Request;
 use think\Session;
 use think\Url;
@@ -30,6 +32,15 @@ class Index extends Controller
     public function jumpToRegister()
     {
         return $this->fetch('registers/registers');
+    }
+
+    public function jumpToUser(){
+
+        $result = json_encode(Db::table('user')->where('email', Session::get('email'))->select());
+        $v = new View();
+        $v->email = Session::get('email');
+        $v->user = $result;
+        return $v->fetch('user/user');
     }
 
     public function jumpToAdmin()
@@ -124,6 +135,13 @@ class Index extends Controller
         $data = ['email' => $email, 'ID' => $ID, 'name' => $name, 'price' => $price, 'number' => $number, 'img' => $img];
         $car = new ShoppingCar();
         $car->addGoods($data);
+    }
+
+    public function updateUser(Request $request){
+        $data = $request->param();
+        $model = new UserModel();
+        $result = $model->update($data);
+        echo '更新成功';
     }
 
     public function deleteGoods($ID)

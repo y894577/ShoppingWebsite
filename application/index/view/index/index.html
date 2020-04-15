@@ -49,8 +49,8 @@
                         <el-dropdown>
                             <i class="el-icon-more-outline" style=""></i>
                             <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item @click="">登录</el-dropdown-item>
-                                <el-dropdown-item @click="">注销</el-dropdown-item>
+                                <el-dropdown-item @click="login">登录</el-dropdown-item>
+                                <el-dropdown-item @click="logout">注销</el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
                     </el-col>
@@ -61,7 +61,13 @@
                         </div>
                     </el-col>
                     <el-col :span="1">
-                        <span @click="jumpToAdmin">{$email}</span>
+                        <span @click="jumpToUser">{$email}</span>
+                    </el-col>
+                    <el-col :span="21" style="text-align: right;font-size: 12px;color: #fff">
+                        <div @click="jumpToShoppingCar">
+                            购物车<i class="el-icon-shopping-cart-2"></i>
+                        </div>
+
                     </el-col>
                 </el-row>
             </el-header>
@@ -167,6 +173,13 @@
             }
         },
         methods: {
+            login: function () {
+                window.location.href = "{:url('index/index')}";
+            },
+            logout: function () {
+                console.log("logout");
+                window.location.href = "{:url('index/logout')}";
+            },
             search: function () {
                 axios({
                     method: 'post',
@@ -181,9 +194,11 @@
                     console.log(error)
                 });
             },
-            jumpToAdmin: function () {
-                //测试，需改
+            jumpToShoppingCar: function () {
                 window.location.href = "{:url('index/jumpToShoppingCar')}";
+            },
+            jumpToUser: function () {
+                window.location.href = "{:url('index/jumpToUser')}";
             },
             jumpToDetail: function (item) {
                 axios({

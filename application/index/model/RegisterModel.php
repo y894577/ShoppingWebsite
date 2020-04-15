@@ -22,7 +22,6 @@ class RegisterModel extends Model
         } catch (ModelNotFoundException $e) {
         } catch (DbException $e) {
         }
-//        $item = $result[0];
         if ($result) {
             var_dump("该邮箱已被注册");
         } else {

@@ -14,15 +14,14 @@ use think\Validate;
 
 class LoginModel extends Model
 {
-    public function connectDB($email, $passwd)
+    public function connectDB($email, $passwd, $isAdmin)
     {
-        try {
+        if (!$isAdmin)
             $result = Db::table('user')->where('email', $email)->select();
-        } catch (DataNotFoundException $e) {
-        } catch (ModelNotFoundException $e) {
-        } catch (DbException $e) {
-        }
+        else
+            $result = Db::table('admin')->where('email', $email)->select();
         $item = $result[0];
+        var_dump($item);
         if (!$result) {
             return "该用户不存在";
         } else {

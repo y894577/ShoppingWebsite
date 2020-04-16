@@ -2,6 +2,7 @@
 
 namespace app\index\controller;
 
+use app\index\model\OrderModel;
 use app\index\model\SearchModel;
 use app\index\model\ShoppingCarModel;
 use app\index\model\User;
@@ -34,7 +35,8 @@ class Index extends Controller
         return $this->fetch('registers/registers');
     }
 
-    public function jumpToUser(){
+    public function jumpToUser()
+    {
 
         $result = json_encode(Db::table('user')->where('email', Session::get('email'))->select());
         $v = new View();
@@ -45,8 +47,17 @@ class Index extends Controller
 
     public function jumpToAdmin()
     {
+        //获取所有用户数据
+        $admin = new Admin();
+        $userlist = $admin->showAllUser();
+
+        //获取所有订单数据
+        $orderlist = $admin->showAllOrder();
+
         $v = new View();
         $v->email = Session::get('email');
+        $v->userlist = $userlist;
+        $v->orderlist = $orderlist;
         return $v->fetch('admin/admin');
     }
 
@@ -80,6 +91,9 @@ class Index extends Controller
         $list = $car->shopping(Session::get('email'));
         $v->list = $list;
 
+        $result = json_encode(Db::table('user')->where('email', Session::get('email'))->select());
+        $v->user = $result;
+
         return $v->fetch('order/order');
     }
 
@@ -96,6 +110,11 @@ class Index extends Controller
         $v = new View();
         $v->email = Session::get('email');
         return $v->fetch('payment/payment');
+    }
+
+    public function jumpToAdminLogin()
+    {
+        return $this->fetch('adminLogin/adminLogin');
     }
 
 
@@ -137,7 +156,8 @@ class Index extends Controller
         $car->addGoods($data);
     }
 
-    public function updateUser(Request $request){
+    public function updateUser(Request $request)
+    {
         $data = $request->param();
         $model = new UserModel();
         $result = $model->update($data);
@@ -151,13 +171,36 @@ class Index extends Controller
         $model->deleted($email, $ID);
     }
 
+    public function deleteUser(Request $request){
+        $email = $request->param('email');
+        $model = new UserModel();
+        $model->deleted($email);
+    }
+
+    public function deleteOrder(Request $request){
+        $orderID = $request->param('orderID');
+        var_dump($orderID);
+        $model = new OrderModel();
+        $model->deleteOrder($orderID);
+    }
+
     public function login(Request $request)
     {
         $email = $request->param('email');
         $passwd = $request->param('passwd');
-        echo 'success';
         $log = new Login();
-        $msg = $log->login($email, $passwd);
+        $msg = $log->login($email, $passwd,0);
+        if ($msg === '登录成功') {
+            var_dump("success");
+        }
+    }
+
+    public function adminLogin(Request $request)
+    {
+        $email = $request->param('email');
+        $passwd = $request->param('passwd');
+        $log = new Login();
+        $msg = $log->login($email, $passwd,1);
         if ($msg === '登录成功') {
             var_dump("success");
         }

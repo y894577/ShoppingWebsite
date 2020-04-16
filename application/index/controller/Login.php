@@ -10,7 +10,7 @@ use think\Validate;
 class Login extends Controller
 {
 
-    public function login($email, $passwd)
+    public function login($email, $passwd, $isAdmin)
     {
         $rule = [
             'passwd' => 'require|max:18|min:6',
@@ -34,7 +34,7 @@ class Login extends Controller
             dump($validate->getError());
         } else {
             $log = new LoginModel();
-            $log->connectDB($email, $passwd);
+            $log->connectDB($email, $passwd,$isAdmin);
         }
     }
 }

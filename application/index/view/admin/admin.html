@@ -2,50 +2,193 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <title>Title</title>
-    <!-- import Vue before Element -->
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <!-- import JavaScript -->
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <title>Admin</title>
 </head>
+
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<link rel="stylesheet" href="/public/static/css/style.css">
+<!-- import Vue before Element -->
+<script src="/public/static/js/vue.js"></script>
+<!-- import JavaScript -->
+<script src="/public/static/js/index.js"></script>
+<!-- import axios-->
+<script src="/public/static/js/axios.min.js"></script>
+<script src="/public/static/js/url-search-params.js"></script>
 
 <body>
 <div id="app">
     <el-container style="height: 800px; border: 1px solid #eee">
-        <el-container>
-            <el-header style="background:#409EFF;font-size: 12px;line-height: 60px;text-align: left;">
 
-                <el-row :gutter="10">
-                    <el-col :span="1">
-                        <el-dropdown>
-                            <i class="el-icon-more-outline" style=""></i>
-                            <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item @click="">登录</el-dropdown-item>
-                                <el-dropdown-item @click="">注销</el-dropdown-item>
-                            </el-dropdown-menu>
-                        </el-dropdown>
-                    </el-col>
-                    <el-col :span="1" style="margin-top: 10px">
-                        <div>
-                            <el-avatar
-                                    src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-                        </div>
-                    </el-col>
-                    <el-col :span="1">
-                        <span>{$email}</span>
-                    </el-col>
-                </el-row>
-            </el-header>
-        </el-container>
+        <el-header style="background:#409EFF;font-size: 12px;line-height: 60px;text-align: left;">
+
+            <el-row :gutter="10">
+                <el-col :span="1">
+                    <el-dropdown>
+                        <i class="el-icon-more-outline" style=""></i>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item @click="">登录</el-dropdown-item>
+                            <el-dropdown-item @click="">注销</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </el-col>
+                <el-col :span="1" style="margin-top: 10px">
+                    <div>
+                        <el-avatar
+                                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                    </div>
+                </el-col>
+                <el-col :span="1">
+                    <span>{$email}</span>
+                </el-col>
+            </el-row>
+        </el-header>
+        <el-main>
+            <template>
+                <el-tabs v-model="activeName" @tab-click="handleClick">
+                    <el-tab-pane label="用户管理" name="first">
+                        <template>
+                            <el-table
+                                    border
+                                    :data="userList"
+                                    style="width: 100%;">
+                                <el-table-column
+                                        prop="email"
+                                        label="邮箱"
+                                        width="200">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="passwd"
+                                        label="密码"
+                                        width="300">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="address"
+                                        label="地址"
+                                        width="600">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="email"
+                                        label="操作"
+                                        width="200">
+                                    <template slot-scope="scope">
+                                        <el-button type="text" size="small" @click="">查看</el-button>
+                                        <el-button type="text" size="small" @click="">编辑</el-button>
+                                        <el-button type="text" size="small"
+                                                   @click.native.prevent="deleteUser(scope.$index, userList)">删除
+                                        </el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </template>
+                    </el-tab-pane>
+                    <el-tab-pane label="订单管理" name="second">
+                        <template>
+                            <el-table
+                                    border
+                                    :data="orderList"
+                                    style="width: 100%;">
+                                <el-table-column
+                                        prop="orderID"
+                                        label="订单编号"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="email"
+                                        label="用户邮箱"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="ID"
+                                        label="货物ID"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="address"
+                                        label="地址"
+                                        width="500">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="isDeliver"
+                                        label="是否已发货"
+                                        width="100">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="isReceive"
+                                        label="是否已送达"
+                                        width="100">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="email"
+                                        label="操作"
+                                        width="200">
+                                    <template slot-scope="scope">
+                                        <el-button type="text" size="small" @click="">查看</el-button>
+                                        <el-button type="text" size="small" @click="">编辑</el-button>
+                                        <el-button type="text" size="small"
+                                                   @click.native.prevent="deleteOrder(scope.$index, orderList)">删除
+                                        </el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </template>
+                    </el-tab-pane>
+                    <el-tab-pane label="货物管理" name="third">货物管理</el-tab-pane>
+                    <el-tab-pane label="评价管理" name="fourth">评价管理</el-tab-pane>
+                </el-tabs>
+            </template>
+        </el-main>
     </el-container>
 </div>
 </body>
 <script>
     new Vue({
         el: '#app',
-        data: function () {
-            return {visible: false}
+        mounted: function () {
+            this.$nextTick(function () {
+                this.userList = {$userlist};
+                this.orderList = {$orderlist};
+                console.log(this.orderList);
+            });
+        },
+        data: {
+            activeName: 'second',
+            userList: [],
+            orderList: [],
+        },
+        methods: {
+            handleClick(tab, event) {
+                console.log(tab, event);
+            },
+            deleteUser(index, rows) {
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:88/public/index.php/index/index/deleteUser',
+                    data: {
+                        email: this.userList[index].email
+                    }
+                }).then(function (response) {
+                    console.log(response.data);
+                    rows.splice(index, 1);
+                    alert(response.data)
+                }).catch(function (error) {
+                    console.log(error)
+                });
+            },
+            deleteOrder(index, rows) {
+                console.log(this.orderList[index]);
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:88/public/index.php/index/index/deleteOrder',
+                    data: {
+                        orderID: this.orderList[index].orderID
+                    }
+                }).then(function (response) {
+                    console.log(response);
+                    rows.splice(index, 1);
+                }).catch(function (error) {
+                    console.log(error)
+                });
+            }
         }
     });
 </script>

@@ -16,4 +16,10 @@ class UserModel
         $result = Db::table('user')->where('email', '$email')->update(['passwd' => $passwd, 'address' => $address]);
         return $result;
     }
+
+    public function deleted($email)
+    {
+        $result = Db::table('user')->where('email', $email)->delete();
+        return $result;
+    }
 }

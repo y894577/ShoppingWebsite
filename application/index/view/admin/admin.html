@@ -132,8 +132,88 @@
                             </el-table>
                         </template>
                     </el-tab-pane>
-                    <el-tab-pane label="货物管理" name="third">货物管理</el-tab-pane>
-                    <el-tab-pane label="评价管理" name="fourth">评价管理</el-tab-pane>
+                    <el-tab-pane label="货物管理" name="third">
+                        <template>
+                            <el-table
+                                    border
+                                    :data="goodsList"
+                                    style="width: 100%;">
+                                <el-table-column
+                                        prop="ID"
+                                        label="商品编号"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="name"
+                                        label="商品名称"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="price"
+                                        label="商品单价"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="info"
+                                        label="商品详情"
+                                        width="500">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="email"
+                                        label="操作"
+                                        width="200">
+                                    <template slot-scope="scope">
+                                        <el-button type="text" size="small" @click="">查看</el-button>
+                                        <el-button type="text" size="small" @click="">编辑</el-button>
+                                        <el-button type="text" size="small"
+                                                   @click.native.prevent="deleteGoods(scope.$index, goodsList)">删除
+                                        </el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </template>
+                    </el-tab-pane>
+                    <el-tab-pane label="评价管理" name="fourth">
+                        <template>
+                            <el-table
+                                    border
+                                    :data="commentList"
+                                    style="width: 100%;">
+                                <el-table-column
+                                        prop="ID"
+                                        label="商品编号"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="email"
+                                        label="用户邮箱"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="date"
+                                        label="评价时间"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="content"
+                                        label="评价详情"
+                                        width="600">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="email"
+                                        label="操作"
+                                        width="200">
+                                    <template slot-scope="scope">
+                                        <el-button type="text" size="small" @click="">查看</el-button>
+                                        <el-button type="text" size="small" @click="">编辑</el-button>
+                                        <el-button type="text" size="small"
+                                                   @click.native.prevent="deleteComment(scope.$index, commentList)">删除
+                                        </el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </template>
+                    </el-tab-pane>
                 </el-tabs>
             </template>
         </el-main>
@@ -147,17 +227,28 @@
             this.$nextTick(function () {
                 this.userList = {$userlist};
                 this.orderList = {$orderlist};
-                console.log(this.orderList);
+                this.goodsList = {$goodslist};
+                this.commentList = {$commentlist};
+                console.log(this.commentList);
             });
         },
         data: {
-            activeName: 'second',
+            activeName: 'forth',
             userList: [],
             orderList: [],
+            goodsList: [],
+            commentList: [],
         },
         methods: {
             handleClick(tab, event) {
                 console.log(tab, event);
+            },
+            login: function () {
+                window.location.href = "{:url('index/index')}";
+            },
+            logout: function () {
+                console.log("logout");
+                window.location.href = "{:url('index/logout')}";
             },
             deleteUser(index, rows) {
                 axios({
@@ -181,6 +272,36 @@
                     url: 'http://localhost:88/public/index.php/index/index/deleteOrder',
                     data: {
                         orderID: this.orderList[index].orderID
+                    }
+                }).then(function (response) {
+                    console.log(response);
+                    rows.splice(index, 1);
+                }).catch(function (error) {
+                    console.log(error)
+                });
+            },
+            deleteGoods: function (index, rows) {
+                console.log(this.goodsList[index]);
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:88/public/index.php/index/index/deleteGoods',
+                    data: {
+                        ID: this.goodsList[index].ID
+                    }
+                }).then(function (response) {
+                    console.log(response);
+                    rows.splice(index, 1);
+                }).catch(function (error) {
+                    console.log(error)
+                });
+            },
+            deleteComment: function (index, rows) {
+                console.log(this.commentList[index]);
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:88/public/index.php/index/index/deleteComment',
+                    data: {
+                        ID: this.commentList[index].ID
                     }
                 }).then(function (response) {
                     console.log(response);

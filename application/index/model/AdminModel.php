@@ -15,8 +15,21 @@ class AdminModel extends Model
         return json_encode($result);
     }
 
-    public function searchOrder(){
+    public function searchOrder()
+    {
         $result = Db::table('order')->select();
         return json_encode($result);
     }
+
+    public function searchGoods()
+    {
+        $result = Db::table('goods')->select();
+        return json_encode($result);
+    }
+
+    public function searchComment(){
+        $result = Db::table('comment')->select();
+        return json_encode($result);
+    }
+
 }

@@ -55,4 +55,10 @@ class ShoppingCarModel extends Model
         return $result;
     }
 
+    //删除某一商品的所有信息
+    public function deletedGoods($ID){
+        $result = Db::table('shoppingcar')->where('ID', $ID)->delete();
+        return $result;
+    }
+
 }

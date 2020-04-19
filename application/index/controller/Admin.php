@@ -33,4 +33,16 @@ class Admin extends Controller
         $result = $model->searchOrder();
         return $result;
     }
+
+    public function showAllGoods(){
+        $model = new AdminModel();
+        $result = $model->searchGoods();
+        return $result;
+    }
+
+    public function showAllComment(){
+        $model = new AdminModel();
+        $result = $model->searchComment();
+        return $result;
+    }
 }

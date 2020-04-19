@@ -2,6 +2,7 @@
 
 namespace app\index\controller;
 
+use app\index\model\GoodsModel;
 use app\index\model\OrderModel;
 use app\index\model\SearchModel;
 use app\index\model\ShoppingCarModel;
@@ -54,10 +55,18 @@ class Index extends Controller
         //获取所有订单数据
         $orderlist = $admin->showAllOrder();
 
+        //获取所有货物数据
+        $goodslist = $admin->showAllGoods();
+
+        //获取所有评价数据
+        $commentlist = $admin->showAllComment();
+
         $v = new View();
         $v->email = Session::get('email');
         $v->userlist = $userlist;
         $v->orderlist = $orderlist;
+        $v->goodslist = $goodslist;
+        $v->commentlist = $commentlist;
         return $v->fetch('admin/admin');
     }
 
@@ -164,11 +173,21 @@ class Index extends Controller
         echo '更新成功';
     }
 
-    public function deleteGoods($ID)
+    //此函数用于删除购物车内商品
+    public function deleteCarGoods($ID)
     {
         $email = Session::get('email');
         $model = new ShoppingCarModel();
         $model->deleted($email, $ID);
+    }
+
+    //此函数用于删除数据库商品
+    public function deleteGoods(Request $request){
+        $ID = $request->param('ID');
+        $model = new GoodsModel();
+        $model->deleteGoods($ID);
+        $car = new ShoppingCarModel();
+        $car->deletedGoods($ID);
     }
 
     public function deleteUser(Request $request){
@@ -183,6 +202,7 @@ class Index extends Controller
         $model = new OrderModel();
         $model->deleteOrder($orderID);
     }
+
 
     public function login(Request $request)
     {

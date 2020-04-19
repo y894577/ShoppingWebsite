@@ -182,7 +182,8 @@ class Index extends Controller
     }
 
     //此函数用于删除数据库商品
-    public function deleteGoods(Request $request){
+    public function deleteGoods(Request $request)
+    {
         $ID = $request->param('ID');
         $model = new GoodsModel();
         $model->deleteGoods($ID);
@@ -190,13 +191,15 @@ class Index extends Controller
         $car->deletedGoods($ID);
     }
 
-    public function deleteUser(Request $request){
+    public function deleteUser(Request $request)
+    {
         $email = $request->param('email');
         $model = new UserModel();
         $model->deleted($email);
     }
 
-    public function deleteOrder(Request $request){
+    public function deleteOrder(Request $request)
+    {
         $orderID = $request->param('orderID');
         var_dump($orderID);
         $model = new OrderModel();
@@ -209,7 +212,7 @@ class Index extends Controller
         $email = $request->param('email');
         $passwd = $request->param('passwd');
         $log = new Login();
-        $msg = $log->login($email, $passwd,0);
+        $msg = $log->login($email, $passwd, 0);
         if ($msg === '登录成功') {
             var_dump("success");
         }
@@ -220,7 +223,7 @@ class Index extends Controller
         $email = $request->param('email');
         $passwd = $request->param('passwd');
         $log = new Login();
-        $msg = $log->login($email, $passwd,1);
+        $msg = $log->login($email, $passwd, 1);
         if ($msg === '登录成功') {
             var_dump("success");
         }
@@ -241,5 +244,18 @@ class Index extends Controller
         $reg->register($email, $passwd, $checkpasswd);
     }
 
+    public function adminUpdateUser(Request $request)
+    {
+        $data = $request->param();
+
+        $model = new UserModel();
+        $result = $model->update($data);
+        var_dump($result);
+    }
+
+    public function adminUpdateOrder()
+    {
+
+    }
 
 }

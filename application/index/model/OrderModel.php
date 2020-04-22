@@ -25,4 +25,11 @@ class OrderModel extends Model
         $result = Db::table('order')->where('orderID', $orderID)->delete();
         return $result;
     }
+
+    public function updateOrder($data)
+    {
+        $orderID = $data['orderID'];
+        var_dump($orderID);
+        $result = Db::table('order')->where('orderID', $orderID)->update($data);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace app\index\controller;
 
+use app\index\model\CommentModel;
 use app\index\model\GoodsModel;
 use app\index\model\OrderModel;
 use app\index\model\SearchModel;
@@ -253,9 +254,24 @@ class Index extends Controller
         var_dump($result);
     }
 
-    public function adminUpdateOrder()
+    public function adminUpdateOrder(Request $request)
     {
-
+        $data = $request->param();
+        $model = new OrderModel($data);
+        $model->updateOrder($data);
     }
 
+    public function adminUpdateGoods(Request $request)
+    {
+        $data = $request->param();
+        $model = new GoodsModel($data);
+        $model->updateGoods($data);
+    }
+
+    public function adminUpdateComment(Request $request)
+    {
+        $data = $request->param();
+        $model = new CommentModel($data);
+        $model->updateComment($data);
+    }
 }

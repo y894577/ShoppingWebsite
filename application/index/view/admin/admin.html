@@ -60,9 +60,8 @@
                                             {{ scope.row.email }}
                                         </div>
                                         <div v-show="scope.row.isEdit">
-                                            <el-input v-model="scope.row.email"></el-input>
+                                            <el-input v-model="scope.row.email" :disabled="true"></el-input>
                                         </div>
-
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -94,13 +93,13 @@
                                     <template slot-scope="scope">
                                         <el-button type="text" size="small" @click="">查看</el-button>
                                         <el-button type="text" size="small" v-show="!scope.row.isEdit"
-                                                   @click="changeUserValue(scope.$index, userList)">编辑
+                                                   @click="changeUserValue(scope.$index, userList,true)">编辑
                                         </el-button>
                                         <el-button type="text" size="small" v-show="scope.row.isEdit"
                                                    @click="updateUserValue(scope.$index,userList)">确定
                                         </el-button>
                                         <el-button type="text" size="small"
-                                                   @click.native.prevent="deleteUser(scope.$index, userList)">删除
+                                                   @click.native.prevent="deleteOrder(scope.$index, userList)">删除
                                         </el-button>
                                     </template>
                                 </el-table-column>
@@ -117,31 +116,68 @@
                                         prop="orderID"
                                         label="订单编号"
                                         width="180">
+                                    <template slot-scope="scope">
+                                        <div v-show="!scope.row.isEdit">
+                                            {{ scope.row.orderID }}
+                                        </div>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.orderID"
+                                                  :disabled="true"></el-input>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="email"
                                         label="用户邮箱"
                                         width="180">
+                                    <template slot-scope="scope">
+                                        <div v-show="!scope.row.isEdit">
+                                            {{ scope.row.email }}
+                                        </div>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.email"></el-input>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="ID"
                                         label="货物ID"
                                         width="180">
+                                    <template slot-scope="scope">
+                                        <div v-show="!scope.row.isEdit">
+                                            {{ scope.row.ID }}
+                                        </div>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.ID"></el-input>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="address"
                                         label="地址"
                                         width="500">
+                                    <template slot-scope="scope">
+                                        <div v-show="!scope.row.isEdit">
+                                            {{ scope.row.address }}
+                                        </div>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.address"></el-input>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="isDeliver"
                                         label="是否已发货"
                                         width="100">
+                                    <template slot-scope="scope">
+                                        <div v-show="!scope.row.isEdit">
+                                            {{ scope.row.isDeliver }}
+                                        </div>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.isDeliver"></el-input>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="isReceive"
                                         label="是否已送达"
                                         width="100">
+                                    <template slot-scope="scope">
+                                        <div v-show="!scope.row.isEdit">
+                                            {{ scope.row.isReceive }}
+                                        </div>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.isReceiver"></el-input>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="email"
@@ -149,9 +185,14 @@
                                         width="200">
                                     <template slot-scope="scope">
                                         <el-button type="text" size="small" @click="">查看</el-button>
-                                        <el-button type="text" size="small" @click="">编辑</el-button>
+                                        <el-button type="text" size="small" v-show="!scope.row.isEdit"
+                                                   @click="changeOrderValue(scope.$index, userList,'true')">编辑
+                                        </el-button>
+                                        <el-button type="text" size="small" v-show="scope.row.isEdit"
+                                                   @click="updateOrderValue(scope.$index,userList)">确定
+                                        </el-button>
                                         <el-button type="text" size="small"
-                                                   @click.native.prevent="deleteOrder(scope.$index, orderList)">删除
+                                                   @click.native.prevent="deleteUser(scope.$index, userList)">删除
                                         </el-button>
                                     </template>
                                 </el-table-column>
@@ -168,21 +209,46 @@
                                         prop="ID"
                                         label="商品编号"
                                         width="180">
+                                    <template slot-scope="scope">
+                                        <div v-show="!scope.row.isEdit">
+                                            {{ scope.row.ID }}
+                                        </div>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.ID"
+                                                  :disabled="true"></el-input>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="name"
                                         label="商品名称"
                                         width="180">
+                                    <template slot-scope="scope">
+                                        <div v-show="!scope.row.isEdit">
+                                            {{ scope.row.name }}
+                                        </div>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.name"></el-input>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="price"
                                         label="商品单价"
                                         width="180">
+                                    <template slot-scope="scope">
+                                        <div v-show="!scope.row.isEdit">
+                                            {{ scope.row.price }}
+                                        </div>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.price"></el-input>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="info"
                                         label="商品详情"
                                         width="500">
+                                    <template slot-scope="scope">
+                                        <div v-show="!scope.row.isEdit">
+                                            {{ scope.row.info }}
+                                        </div>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.info"></el-input>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="email"
@@ -190,9 +256,14 @@
                                         width="200">
                                     <template slot-scope="scope">
                                         <el-button type="text" size="small" @click="">查看</el-button>
-                                        <el-button type="text" size="small" @click="">编辑</el-button>
+                                        <el-button type="text" size="small" v-show="!scope.row.isEdit"
+                                                   @click="changeGoodsValue(scope.$index, userList,true)">编辑
+                                        </el-button>
+                                        <el-button type="text" size="small" v-show="scope.row.isEdit"
+                                                   @click="updateGoodsValue(scope.$index,userList)">确定
+                                        </el-button>
                                         <el-button type="text" size="small"
-                                                   @click.native.prevent="deleteGoods(scope.$index, goodsList)">删除
+                                                   @click.native.prevent="deleteGoods(scope.$index, userList)">删除
                                         </el-button>
                                     </template>
                                 </el-table-column>
@@ -209,21 +280,48 @@
                                         prop="ID"
                                         label="商品编号"
                                         width="180">
+                                    <template slot-scope="scope">
+                                        <div v-show="!scope.row.isEdit">
+                                            {{ scope.row.ID }}
+                                        </div>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.ID"
+                                                  :disalbe="true"></el-input>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="email"
                                         label="用户邮箱"
                                         width="180">
+                                    <template slot-scope="scope">
+                                        <div v-show="!scope.row.isEdit">
+                                            {{ scope.row.email }}
+                                        </div>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.email"
+                                                  :disalbe="true"></el-input>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="date"
                                         label="评价时间"
                                         width="180">
+                                    <template slot-scope="scope">
+                                        <div v-show="!scope.row.isEdit">
+                                            {{ scope.row.date }}
+                                        </div>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.date"
+                                                  :disalbe="true"></el-input>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="content"
                                         label="评价详情"
                                         width="600">
+                                    <template slot-scope="scope">
+                                        <div v-show="!scope.row.isEdit">
+                                            {{ scope.row.content }}
+                                        </div>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.content"></el-input>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="email"
@@ -262,7 +360,7 @@
             });
         },
         data: {
-            activeName: 'first',
+            activeName: 'third',
             userList: [],
             orderList: [],
             goodsList: [],
@@ -340,14 +438,15 @@
                     console.log(error)
                 });
             },
-            changeUserValue: function (index, rows) {
+            changeUserValue: function (index, rows, value) {
                 let data = this.userList[index];
-                data.isEdit = true;
+                data.isEdit = value;
                 this.$set(this.userList[index], 0, data);
                 console.log(this.userList);
 
             },
             updateUserValue: function (index, rows) {
+                let that = this;
                 let user = this.userList[index];
                 delete user.isEdit;
                 let data = {};
@@ -362,11 +461,93 @@
                     data: data
                 }).then(function (response) {
                     console.log(response);
+                    that.changeUserValue(index, rows, false);
                 }).catch(function (error) {
                     console.log(error)
                 });
 
-            }
+            },
+            changeOrderValue: function (index, rows, value) {
+                let data = this.orderList[index];
+                data.isEdit = value;
+                this.$set(this.orderList[index], 0, data);
+                console.log(this.orderList);
+            },
+            updateOrderValue: function (index, rows) {
+                let that = this;
+                let order = this.orderList[index];
+                delete order.isEdit;
+                let data = {};
+                for (let index in order) {
+                    if (index !== "0")
+                        data[index] = order[index];
+                }
+                console.log(data);
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:88/public/index.php/index/index/adminUpdateOrder',
+                    data: data
+                }).then(function (response) {
+                    console.log(response);
+                    that.changeOrderValue(index, rows, false);
+                }).catch(function (error) {
+                    console.log(error)
+                });
+            },
+            changeGoodsValue: function (index, rows, value) {
+                let data = this.goodsList[index];
+                data.isEdit = value;
+                this.$set(this.goodsList[index], 0, data);
+                console.log(this.goodsList);
+            },
+            updateGoodsValue: function (index, rows) {
+                let that = this;
+                let goods = this.goodsList[index];
+                delete goods.isEdit;
+                let data = {};
+                for (let index in goods) {
+                    if (index !== "0")
+                        data[index] = goods[index];
+                }
+                console.log(data);
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:88/public/index.php/index/index/adminUpdateGoods',
+                    data: data
+                }).then(function (response) {
+                    console.log(response);
+                    that.changeGoodsValue(index, rows, false);
+                }).catch(function (error) {
+                    console.log(error)
+                });
+            },
+            changeCommentValue: function (index, rows, value) {
+                let data = this.commentList[index];
+                data.isEdit = value;
+                this.$set(this.commentList[index], 0, data);
+                console.log(this.commentList);
+            },
+            updateCommentValue: function (index, rows) {
+                let that = this;
+                let comment = this.commentList[index];
+                delete comment.isEdit;
+                let data = {};
+                for (let index in comment) {
+                    if (index !== "0")
+                        data[index] = comment[index];
+                }
+                console.log(data);
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:88/public/index.php/index/index/adminUpdateComment',
+                    data: data
+                }).then(function (response) {
+                    console.log(response);
+                    that.changeCommentValue(index, rows, false);
+                }).catch(function (error) {
+                    console.log(error)
+                });
+            },
         }
     });
 </script>

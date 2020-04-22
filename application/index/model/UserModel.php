@@ -13,7 +13,7 @@ class UserModel
         $email = $data['email'];
         $passwd = $data['passwd'];
         $address = $data['address'];
-        $result = Db::table('user')->where('email', $email)->update(['passwd' => $passwd, 'address' => $address]);
+        $result = Db::table('user')->where('email', $email)->update(['passwd' => md5($passwd), 'address' => $address]);
         return $result;
     }
 

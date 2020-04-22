@@ -14,4 +14,12 @@ class CommentModel extends Model
         $result = Db::table('comment')->where('ID', $ID)->select();
         return $result;
     }
+
+    public function updateComment($data)
+    {
+        $ID = $data['ID'];
+        $email = $data['email'];
+        $date = $date['date'];
+        $result = Db::table('comment')->where(['ID' => $ID, 'email' => $email, 'date' => $date])->update($data);
+    }
 }

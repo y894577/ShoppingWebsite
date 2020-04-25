@@ -32,4 +32,10 @@ class OrderModel extends Model
         var_dump($orderID);
         $result = Db::table('order')->where('orderID', $orderID)->update($data);
     }
+
+    public function addOrder($data)
+    {
+        $result = Db::table('order')->insert($data);
+        return $result;
+    }
 }

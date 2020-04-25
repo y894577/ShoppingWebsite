@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ORDER</title>
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-header style="background:#409EFF;font-size: 12px;line-height: 60px;text-align: left;">
+            <el-row :gutter="10">
+                <el-col :span="1">
+                    <el-dropdown>
+                        <i class="el-icon-more-outline" style=""></i>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item @click="login">登录</el-dropdown-item>
+                            <el-dropdown-item @click="logout">注销</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </el-col>
+                <el-col :span="1" style="margin-top: 10px">
+                    <div>
+                        <el-avatar
+                                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                    </div>
+                </el-col>
+                <el-col :span="1">
+                    <span>{$email}</span>
+                </el-col>
+            </el-row>
+        </el-header>
+    </el-container>
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            form: {
+                name: '123',
+                passwd: '123'
+            }
+        },
+    })
+</script>
+</html>

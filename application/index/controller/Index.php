@@ -127,6 +127,13 @@ class Index extends Controller
         return $this->fetch('adminLogin/adminLogin');
     }
 
+    public function jumpToReceiveGoods()
+    {
+        $v = new View();
+        $v->email = Session::get('email');
+        return $v->fetch('receiveGoods/receiveGoods');
+    }
+
 
     public function detail($ID)
     {
@@ -273,5 +280,14 @@ class Index extends Controller
         $data = $request->param();
         $model = new CommentModel($data);
         $model->updateComment($data);
+    }
+
+    public function submitOrder(Request $request)
+    {
+        $data = $request->param();
+        $form = $data['form'];
+        $address = $data['address'];
+        $model = new Order();
+        $model->submitOrder($form,$address);
     }
 }

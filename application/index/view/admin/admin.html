@@ -186,7 +186,7 @@
                                         <div v-show="!scope.row.isEdit">
                                             {{ scope.row.isReceive }}
                                         </div>
-                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.isReceiver"></el-input>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.isReceive"></el-input>
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -408,6 +408,7 @@
             goodsList: [],
             commentList: [],
             userSelect: false,
+
             userCount: 1,
             orderCount: 1,
             goodsCount: 1,

@@ -47,7 +47,7 @@
                 <el-steps :active="1" finish-status="success">
                     <el-step title="提交订单"></el-step>
                     <el-step title="付款"></el-step>
-                    <el-step title="确认收货"></el-step>
+                    <el-step title="订单创建成功"></el-step>
                 </el-steps>
             </el-header>
 
@@ -83,14 +83,14 @@
                                 <el-input v-model="form.name"></el-input>
                             </el-form-item>
                             <el-form-item label="支付密码" style="width: 300px">
-                                <el-input v-model="form.name"></el-input>
+                                <el-input v-model="form.passwd"></el-input>
                             </el-form-item>
                         </div>
                     </el-form>
                 </el-card>
             </el-main>
             <el-main>
-                <el-button round style="width: 100px;position: relative;left:65%" type="primary">支付</el-button>
+                <el-button round style="width: 100px;position: relative;left:65%" type="primary" @click="payment">支付</el-button>
             </el-main>
 
         </el-container>
@@ -102,7 +102,22 @@
     new Vue({
         el: '#app',
         data: {
-            form: ''
+            form: {
+                name: '123',
+                passwd: '123'
+            }
+        },
+        methods:{
+            payment:function () {
+                window.location.href = "{:url('index/jumpToReceiveGoods')}";
+            },
+            login: function () {
+                window.location.href = "{:url('index/index')}";
+            },
+            logout: function () {
+                console.log("logout");
+                window.location.href = "{:url('index/logout')}";
+            },
         }
     })
 </script>

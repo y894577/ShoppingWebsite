@@ -49,7 +49,7 @@
                         <template>
                             <el-table
                                     border
-                                    :data="userList"
+                                    :data="userList.slice((userCurrentPage-1)*pageSize,userCurrentPage*pageSize)"
                                     style="width: 100%;">
                                 <el-table-column
                                         prop="email"
@@ -105,12 +105,22 @@
                                 </el-table-column>
                             </el-table>
                         </template>
+                        <template>
+                            <!--                            分页显示-->
+                            <el-pagination
+                                    @size-change="handleSizeChange"
+                                    @current-change="userHandleCurrentChange"
+                                    :page-size="10"
+                                    layout="prev, pager, next, jumper"
+                                    :page-count="userMaxPage">
+                            </el-pagination>
+                        </template>
                     </el-tab-pane>
                     <el-tab-pane label="订单管理" name="second">
                         <template>
                             <el-table
                                     border
-                                    :data="orderList"
+                                    :data="orderList.slice((orderCurrentPage-1)*pageSize,orderCurrentPage*pageSize)"
                                     style="width: 100%;">
                                 <el-table-column
                                         prop="orderID"
@@ -198,12 +208,20 @@
                                 </el-table-column>
                             </el-table>
                         </template>
+                        <!--                            分页显示-->
+                        <el-pagination
+                                @size-change="handleSizeChange"
+                                @current-change="orderHandleCurrentChange"
+                                :page-size="10"
+                                layout="prev, pager, next, jumper"
+                                :page-count="orderMaxPage">
+                        </el-pagination>
                     </el-tab-pane>
                     <el-tab-pane label="货物管理" name="third">
                         <template>
                             <el-table
                                     border
-                                    :data="goodsList"
+                                    :data="goodsList.slice((goodsCurrentPage-1)*pageSize,goodsCurrentPage*pageSize)"
                                     style="width: 100%;">
                                 <el-table-column
                                         prop="ID"
@@ -269,12 +287,20 @@
                                 </el-table-column>
                             </el-table>
                         </template>
+                        <!--                            分页显示-->
+                        <el-pagination
+                                @size-change="handleSizeChange"
+                                @current-change="goodsHandleCurrentChange"
+                                :page-size="10"
+                                layout="prev, pager, next, jumper"
+                                :page-count="goodsMaxPage">
+                        </el-pagination>
                     </el-tab-pane>
                     <el-tab-pane label="评价管理" name="fourth">
                         <template>
                             <el-table
                                     border
-                                    :data="commentList"
+                                    :data="commentList.slice((commentCurrentPage-1)*pageSize,commentCurrentPage*pageSize)"
                                     style="width: 100%;">
                                 <el-table-column
                                         prop="ID"
@@ -337,6 +363,14 @@
                                 </el-table-column>
                             </el-table>
                         </template>
+                        <!--                            分页显示-->
+                        <el-pagination
+                                @size-change="handleSizeChange"
+                                @current-change="commentHandleCurrentChange"
+                                :page-size="10"
+                                layout="prev, pager, next, jumper"
+                                :page-count="commentMaxPage">
+                        </el-pagination>
                     </el-tab-pane>
                 </el-tabs>
             </template>
@@ -353,21 +387,63 @@
                 this.orderList = {$orderlist};
                 this.goodsList = {$goodslist};
                 this.commentList = {$commentlist};
-                for (let num in this.userList) {
-                    this.userList[num].isEdit = false;
-                }
-                console.log(this.commentList);
+                this.userCount = this.userList.length;
+                this.orderCount = this.orderList.length;
+                this.goodsCount = this.goodsList.length;
+                this.commentCount = this.commentList.length;
+                this.userMaxPage = Math.ceil(this.userList.length/10);
+                this.orderMaxPage = Math.ceil(this.orderList.length/10);
+                this.goodsMaxPage = Math.ceil(this.goodsList.length/10);
+                this.commentMaxPage = Math.ceil(this.commentList.length/10);
+                // for (let num in this.userList) {
+                //     this.userList[num].isEdit = false;
+                // }
+                console.log(this.commentMaxPage);
             });
         },
         data: {
-            activeName: 'third',
+            activeName: 'first',
             userList: [],
             orderList: [],
             goodsList: [],
             commentList: [],
             userSelect: false,
+            userCount: 1,
+            orderCount: 1,
+            goodsCount: 1,
+            commentCount: 1,
+
+            userCurrentPage: 1,
+            orderCurrentPage: 1,
+            goodsCurrentPage: 1,
+            commentCurrentPage: 1,
+            pageSize: 10,
+
+            userMaxPage: 1,
+            orderMaxPage: 1,
+            goodsMaxPage: 1,
+            commentMaxPage: 1,
         },
         methods: {
+            handleSizeChange(val) {
+                console.log(`每页 ${val} 条`);
+            },
+            userHandleCurrentChange(val) {
+                this.userCurrentPage = val;
+                console.log(`当前页: ${val}`);
+            },
+            orderHandleCurrentChange(val) {
+                this.orderCurrentPage = val;
+                console.log(`当前页: ${val}`);
+            },
+            goodsHandleCurrentChange(val) {
+                this.goodsCurrentPage = val;
+                console.log(`当前页: ${val}`);
+            },
+            commentHandleCurrentChange(val) {
+                this.commentCurrentPage = val;
+                console.log(`当前页: ${val}`);
+            },
             handleClick(tab, event) {
                 console.log(tab, event);
             },

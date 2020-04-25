@@ -57,7 +57,7 @@
                     <el-col :span="1" style="margin-top: 10px">
                         <div>
                             <el-avatar
-                                    src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                                    src="/public/static/img/user/{$email}.jpg"></el-avatar>
                         </div>
                     </el-col>
                     <el-col :span="1">
@@ -137,17 +137,17 @@
                         </div>
                     </el-col>
                     <el-col :span="6">
-                        <div class="index_div">
+                        <div class="index_div" @click="jumpToDetail('123aaa')">
                             <img src="/public/static/img/goods/index2.jpg" style="width: 100%;height: 100%">
                         </div>
                     </el-col>
                     <el-col :span="6">
-                        <div class="index_div">
+                        <div class="index_div" @click="jumpToDetail('123bbb')">
                             <img src="/public/static/img/goods/index3.jpg" style="width: 100%;height: 100%">
                         </div>
                     </el-col>
                     <el-col :span="6">
-                        <div class="index_div">
+                        <div class="index_div" @click="jumpToDetail('123ccc')">
                             <img src="/public/static/img/goods/index4.jpg" style="width: 100%;height: 100%">
                         </div>
                     </el-col>

@@ -73,7 +73,19 @@
             </el-header>
             <el-main style="overflow: inherit">
                 <el-row :gutter="20">
-                    <el-col :span="12" :offset="6">
+                    <el-col :span="2" offset="5">
+                        <template>
+                            <el-select v-model="tag" placeholder="全部">
+                                <el-option
+                                        v-for="item in options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </template>
+                    </el-col>
+                    <el-col :span="10">
                         <el-input v-model="input" placeholder="请输入内容"></el-input>
                     </el-col>
                     <el-col :span="6">
@@ -169,11 +181,24 @@
         el: '#app',
         data: function () {
             return {
-                front: [],
-                bottom: [
-                    {ID: '123abc', name: '44444878', img: ''},
-                ],
                 input: '',
+                options: [{
+                    value: 'clothes',
+                    label: '服装'
+                }, {
+                    value: 'accessory',
+                    label: '饰品'
+                }, {
+                    value: 'food',
+                    label: '食品'
+                }, {
+                    value: 'electronic',
+                    label: '电器'
+                }, {
+                    value: 'other',
+                    label: '其他'
+                }],
+                tag: '全部'
             }
         },
         methods: {
@@ -189,10 +214,11 @@
                     method: 'post',
                     url: 'http://localhost:88/public/index.php/index/index/jumpToSearch',
                     data: {
-                        item: this.input
+                        item: this.input,
+                        tag: this.tag,
                     }
                 }).then(function (response) {
-                    console.log(response);
+                    console.log(response.data);
                     window.location.href = response.data;
                 }).catch(function (error) {
                     console.log(error)

@@ -109,9 +109,10 @@ class Index extends Controller
 
     public function jumpToSearch(Request $request)
     {
-        $item = $request->param('item');
-        $string = 'item=' . $item;
-
+        $data = $request->param();
+        $item = $data['item'];
+        $tag = $data['tag'];
+        $string = 'item=' . $item . '&tag=' . $tag;
         return Url::build('index/search', $string);
     }
 
@@ -149,11 +150,16 @@ class Index extends Controller
         return $v->fetch('itemDetail/itemDetail');
     }
 
-    public function search($item)
+    public function search(Request $request)
     {
+        $item = $request->param('item');
+        $tag = $request->param('tag');
         $model = new Search();
-        $result = $model->searchAll($item);
-
+        if ($tag !== '全部') {
+            $result = $model->searchPart($item, $tag);
+        } else {
+            $result = $model->searchAll($item);
+        }
         $v = new View();
         $v->email = Session::get('email');
         $v->result = $result;
@@ -288,6 +294,6 @@ class Index extends Controller
         $form = $data['form'];
         $address = $data['address'];
         $model = new Order();
-        $model->submitOrder($form,$address);
+        $model->submitOrder($form, $address);
     }
 }

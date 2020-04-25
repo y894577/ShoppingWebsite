@@ -16,8 +16,10 @@ class Search extends Controller
         return json_encode($result);
     }
 
-    public function searchPart()
+    public function searchPart($item, $tag)
     {
-
+        $model = new SearchModel();
+        $result = $model->searchTag($item, $tag);
+        return json_encode($result);
     }
 }

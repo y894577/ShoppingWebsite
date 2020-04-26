@@ -56,33 +56,15 @@
                     </el-form-item>
                     <el-form-item label="头像">
 
-                        <el-upload action="#"
-                                   :class="hideUpload"
-                                   list-type="picture-card"
-                                   :auto-upload="false"
-                                   :limit=1
-                                   @click="change">
-                            <i slot="default" class="el-icon-plus"></i>
-                            <div slot="file" slot-scope="{file}">
-                                <img class="el-upload-list__item-thumbnail"
-                                     :src="file.url" alt="">
-                                <span class="el-upload-list__item-actions">
-                                    <span class="el-upload-list__item-preview"
-                                          @click="handlePictureCardPreview(file)">
-                                      <i class="el-icon-zoom-in"></i>
-                                    </span>
-                                    <span v-if="!disabled"
-                                          class="el-upload-list__item-delete"
-                                          @click="handleDownload(file)">
-                                      <i class="el-icon-download"></i>
-                                    </span>
-                                    <span v-if="!disabled"
-                                          class="el-upload-list__item-delete"
-                                          @click="handleRemove(file)">
-                                      <i class="el-icon-delete"></i>
-                                    </span>
-                                </span>
-                            </div>
+                        <el-upload
+                                action="http://localhost:88/public/index.php/index/index/getImg"
+                                :show-file-list="false"
+                                :on-success="handleAvatarSuccess"
+                                :before-upload="beforeAvatarUpload"
+                                :data="fileData"
+                                name="image">
+                            <img v-if="imageUrl" :src="imageUrl" class="avatar" :v-model="imageUrl">
+                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
                         <el-dialog :visible.sync="dialogVisible">
                             <img width="100%" :src="dialogImageUrl" alt="">
@@ -105,15 +87,16 @@
         mounted: function () {
             this.$nextTick(function () {
                 this.form = {$user}[0];
-                console.log(this.form)
+                console.log(this.form);
+                this.fileData.fileName = this.form.email;
             })
         },
         methods: {
             update: function () {
                 axios({
-                    method:'post',
+                    method: 'post',
                     url: 'http://localhost:88/public/index.php/index/index/updateUser',
-                    data:{
+                    data: {
                         email: this.form.email,
                         passwd: this.form.passwd,
                         address: this.form.address,
@@ -136,14 +119,21 @@
                 console.log("logout");
                 window.location.href = "{:url('index/logout')}";
             },
-            handleRemove(file) {
-                console.log(file);
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = URL.createObjectURL(file.raw);
+                alert("更新头像成功！")
             },
-            handlePictureCardPreview(file) {
-                this.dialogImageUrl = file.url;
-            },
-            handleDownload(file) {
-                console.log(file);
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
             },
 
         },
@@ -152,9 +142,13 @@
             dialogImageUrl: '',
             dialogVisible: false,
             disabled: false,
-            hideUpload: ''
-        }
-
+            hideUpload: '',
+            imageUrl: '',
+            fileData: {
+                fileName: '',
+                fileType: ''
+            },
+        },
     });
 </script>
 </html>

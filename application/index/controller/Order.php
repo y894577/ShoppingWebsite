@@ -5,16 +5,22 @@ namespace app\index\controller;
 
 
 use app\index\model\OrderModel;
+use think\Request;
 
 class Order
 {
+    private static $model;
+
     public function showOrder()
     {
 
     }
 
-    public function showUserOrder()
+    public function showUserOrder($email)
     {
+        $model = new OrderModel();
+        $result = $model->selectUserOrder($email);
+        return json_encode($result);
 
     }
 
@@ -31,16 +37,16 @@ class Order
             unset($data['total']);
             unset($data['price']);
             unset($data['img']);
-            $data['orderID'] = $this->get_random(10);
+            $data['orderID'] = $this->getRandom(10);
             $data['address'] = $address;
             $data['isReceive'] = 0;
             $data['isDeliver'] = 0;
             $model = new OrderModel;
-            $model->addOrder($data);
+            $model->insertOrder($data);
         }
     }
 
-    public function get_random($length = 10)
+    public function getRandom($length = 10)
     {
         $chars = array(
             "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
@@ -59,4 +65,13 @@ class Order
         return $output;
     }
 
+    public function receiveGoods($orderID)
+    {
+        $model = new OrderModel();
+        $order = $model->selectOrder($orderID);
+        $order[0]['isReceive'] = 1;
+        $order[0]['isDeliver'] = 1;
+        $model->updateOrder($order[0]);
+        echo "确认收货成功！";
+    }
 }

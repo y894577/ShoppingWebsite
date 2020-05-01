@@ -130,8 +130,14 @@ class Index extends Controller
 
     public function jumpToReceiveGoods()
     {
+        $email = Session::get('email');
         $v = new View();
-        $v->email = Session::get('email');
+        $v->email = $email;
+
+        $model = new Order();
+        $order = $model->showUserOrder($email);
+        $v->order = $order;
+
         return $v->fetch('receiveGoods/receiveGoods');
     }
 
@@ -304,11 +310,18 @@ class Index extends Controller
         if ($file) {
             $oldPath = $file->getInfo()["tmp_name"];
             $fileName = $request->post('fileName');
-            $newPath = $_SERVER['DOCUMENT_ROOT'].'/public/static/img/user/'.$fileName.'.jpg';
-            move_uploaded_file($oldPath,$newPath);
+            $newPath = $_SERVER['DOCUMENT_ROOT'] . '/public/static/img/user/' . $fileName . '.jpg';
+            move_uploaded_file($oldPath, $newPath);
         } else {
             // 上传失败获取错误信息
             echo $file->getError();
         }
+    }
+
+    public function receiveGoods(Request $request)
+    {
+        $orderID = $request->param('orderID');
+        $model = new Order();
+        $model->receiveGoods($orderID);
     }
 }

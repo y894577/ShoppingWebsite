@@ -15,9 +15,10 @@ class OrderModel extends Model
         return $result;
     }
 
-    public function selectOrder()
+    public function selectOrder($orderID)
     {
-
+        $result = Db::table('order')->where('orderID', $orderID)->select();
+        return $result;
     }
 
     public function deleteOrder($orderID)
@@ -29,13 +30,22 @@ class OrderModel extends Model
     public function updateOrder($data)
     {
         $orderID = $data['orderID'];
-        var_dump($orderID);
         $result = Db::table('order')->where('orderID', $orderID)->update($data);
     }
 
-    public function addOrder($data)
+    public function insertOrder($data)
     {
         $result = Db::table('order')->insert($data);
         return $result;
+    }
+
+    public function selectUserOrder($email)
+    {
+        $result = Db::table('order')->where('email', $email)->select();
+        $res = Db::name('order')
+            ->alias('a')
+            ->join('goods b', 'a.ID=b.ID')
+            ->select();
+        return $res;
     }
 }

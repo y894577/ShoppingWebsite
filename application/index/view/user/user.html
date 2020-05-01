@@ -96,7 +96,7 @@
             update: function () {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:88/public/index.php/index/index/updateUser',
+                    url: httpd+'/index/updateUser',
                     data: {
                         email: this.form.email,
                         passwd: this.form.passwd,

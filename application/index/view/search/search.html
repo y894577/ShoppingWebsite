@@ -120,7 +120,7 @@
             jumpToDetail: function (value) {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:88/public/index.php/index/index/jumpToDetail',
+                    url: httpd+'/index/jumpToDetail',
                     data: {
                         ID: value
                     }

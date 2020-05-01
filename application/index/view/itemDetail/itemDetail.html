@@ -160,11 +160,7 @@
             addToShoppingCar() {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:88/public/index.php/index/index/addGoods',
-                    // header:{
-                    //     "Content-Type": 'application/json',
-                    //     'X-Requested-With': 'XMLHttpRequest'
-                    // },
+                    url: httpd+'/index/addGoods',
                     data: {
                         ID: this.detail[0].ID,
                         name: this.detail[0].name,

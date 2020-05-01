@@ -627,7 +627,7 @@
                 console.log(data);
                 axios({
                     method: 'post',
-                    url: 'http://localhost:88/public/index.php/index/index/adminUpdateComment',
+                    url: httpd+'/index/adminUpdateComment',
                     data: data
                 }).then(function (response) {
                     console.log(response);

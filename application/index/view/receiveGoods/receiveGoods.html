@@ -143,10 +143,9 @@
                 window.location.href = "{:url('index/logout')}";
             },
             receiveGoods: function (orderID) {
-                console.log(orderID);
                 axios({
                     method: 'post',
-                    url: 'http://localhost:88/public/index.php/index/index/receiveGoods',
+                    url: httpd+'/index/receiveGoods',
                     data: {orderID: orderID}
                 }).then(function (response) {
                     console.log(response.data);

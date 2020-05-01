@@ -212,7 +212,7 @@
             search: function () {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:88/public/index.php/index/index/jumpToSearch',
+                    url: httpd+'/index/jumpToSearch',
                     data: {
                         item: this.input,
                         tag: this.tag,
@@ -233,7 +233,7 @@
             jumpToDetail: function (item) {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:88/public/index.php/index/index/jumpToDetail',
+                    url: httpd+'/index/jumpToDetail',
                     data: {
                         ID: item
                     }

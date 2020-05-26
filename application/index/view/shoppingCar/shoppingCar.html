@@ -33,7 +33,7 @@
                 <el-col :span="1" style="margin-top: 10px">
                     <div>
                         <el-avatar
-                                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                                src="/public/static/img/user/{$email}.jpg"></el-avatar>
                     </div>
                 </el-col>
                 <el-col :span="1">
@@ -126,21 +126,21 @@
         },
         methods: {
             submitOrder: function () {
-              window.location.href = "{:url('index/jumpToOrder')}";
+              window.location.href = "{:url('order/order')}";
             },
             login: function () {
-                window.location.href = "{:url('index/index')}";
+                window.location.href = "{:url('login/index')}";
             },
             logout: function () {
                 console.log("logout");
-                window.location.href = "{:url('index/logout')}";
+                window.location.href = "{:url('login/logout')}";
             },
             deleteRow(index, rows) {
                 rows.splice(index, 1);
                 console.log(this.carList[index].ID);
                 axios({
                     method: 'post',
-                    url: httpd+'/index/deleteCarGoods',
+                    url: httpd+'/ShoppingCar/deleteCarGoods',
                     data: {
                         ID: this.carList[index].ID
                     }

@@ -114,11 +114,11 @@
                 console.log(this.hideUpload)
             },
             login: function () {
-                window.location.href = "{:url('index/index')}";
+                window.location.href = "{:url('login/index')}";
             },
             logout: function () {
                 console.log("logout");
-                window.location.href = "{:url('index/logout')}";
+                window.location.href = "{:url('login/logout')}";
             },
             handleAvatarSuccess(res, file) {
                 this.imageUrl = URL.createObjectURL(file.raw);

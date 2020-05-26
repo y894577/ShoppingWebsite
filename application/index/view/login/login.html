@@ -263,7 +263,7 @@
                 window.location.href = "{:url('register/index')}"
             },
             adminLogin: function(){
-                window.location.href = "{:url('index/jumpToAdminLogin')}"
+                window.location.href = "{:url('admin/index')}"
             },
             submitForm: function (formName) {
                 var that = this;
@@ -271,7 +271,7 @@
                     if (valid) {
                         axios({
                             method: 'post',
-                            url: httpd+'/index/login',
+                            url: httpd+'/login/login',
                             data: {
                                 email: this.ruleForm.email,
                                 passwd: this.ruleForm.pass,
@@ -279,7 +279,7 @@
                         }).then(function (response) {
                             console.log(response.data);
                             alert("登录成功");
-                            window.location.href = "{:url('index/jumpToIndex')}";
+                            window.location.href = "{:url('index/index')}";
                         }).catch(function (error) {
                             console.log(error);
                             alert("登录失败")

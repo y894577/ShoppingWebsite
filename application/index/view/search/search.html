@@ -120,7 +120,7 @@
             jumpToDetail: function (value) {
                 axios({
                     method: 'post',
-                    url: httpd+'/index/jumpToDetail',
+                    url: httpd+'/detail/detail',
                     data: {
                         ID: value
                     }
@@ -134,7 +134,7 @@
             search: function () {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:88/public/index.php/index/index/jumpToSearch',
+                    url: httpd+'/search/search',
                     data: {
                         item: this.input,
                         tag: this.tag,

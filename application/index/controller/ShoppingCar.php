@@ -5,11 +5,26 @@ namespace app\index\controller;
 
 
 use app\index\model\ShoppingCarModel;
+use think\Controller;
 use think\Session;
+use think\View;
 
-class ShoppingCar
+class ShoppingCar extends Controller
 {
     public $list = array();
+
+    public function ShoppingCar()
+    {
+        //获取shoppingList
+        $car = new ShoppingCar();
+        $list = $car->shopping(Session::get('email'));
+
+        $v = new View();
+        $v->email = Session::get('email');
+        $v->list = $list;
+
+        return $v->fetch('shoppingCar/shoppingCar');
+    }
 
 
     public function shopping($email)
@@ -28,13 +43,6 @@ class ShoppingCar
 
     public function addGoods($data)
     {
-
-//        $name = $detail[0].name;
-//        $price = $detail[0].price;
-//        $img = $detail[0].img;
-
-//        $data = ['ID'=>$ID,'info'=>$name,'price'=>$price,'number'=>$num,'img'=>$img];
-
         $email = Session::get('email');
         $ID = $data['ID'];
         $model = new ShoppingCarModel();
@@ -48,6 +56,13 @@ class ShoppingCar
             $model->addList($data);
             echo("添加成功！");
         }
+    }
+
+    public function deleteCarGoods($ID)
+    {
+        $email = Session::get('email');
+        $model = new ShoppingCarModel();
+        $model->deleted($email, $ID);
     }
 
 

@@ -109,14 +109,14 @@
         },
         methods:{
             payment:function () {
-                window.location.href = "{:url('index/jumpToReceiveGoods')}";
+                window.location.href = "{:url('order/receive')}";
             },
             login: function () {
-                window.location.href = "{:url('index/index')}";
+                window.location.href = "{:url('login/index')}";
             },
             logout: function () {
                 console.log("logout");
-                window.location.href = "{:url('index/logout')}";
+                window.location.href = "{:url('login/logout')}";
             },
         }
     })

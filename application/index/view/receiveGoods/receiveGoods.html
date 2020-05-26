@@ -136,16 +136,17 @@
         },
         methods: {
             login: function () {
-                window.location.href = "{:url('index/index')}";
+                console.log("login");
+                window.location.href = "{:url('login/index')}";
             },
             logout: function () {
                 console.log("logout");
-                window.location.href = "{:url('index/logout')}";
+                window.location.href = "{:url('login/logout')}";
             },
             receiveGoods: function (orderID) {
                 axios({
                     method: 'post',
-                    url: httpd+'/index/receiveGoods',
+                    url: httpd+'/order/receiveGoods',
                     data: {orderID: orderID}
                 }).then(function (response) {
                     console.log(response.data);

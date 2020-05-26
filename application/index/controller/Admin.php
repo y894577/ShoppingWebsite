@@ -12,9 +12,51 @@ use app\index\model\ShoppingCarModel;
 use app\index\model\UserModel;
 use think\Controller;
 use think\Request;
+use think\Session;
+use think\View;
 
 class Admin extends Controller
 {
+
+    public function index(){
+            return $this->fetch('adminLogin/adminLogin');
+    }
+
+    public function adminLogin(Request $request)
+    {
+        $email = $request->param('email');
+        $passwd = $request->param('passwd');
+        $log = new Login();
+        $msg = $log->login($email, $passwd, 1);
+        if ($msg === '登录成功') {
+            var_dump("success");
+        }
+    }
+
+    public function admin()
+    {
+        //获取所有用户数据
+        $admin = new Admin();
+        $userlist = $admin->showAllUser();
+
+        //获取所有订单数据
+        $orderlist = $admin->showAllOrder();
+
+        //获取所有货物数据
+        $goodslist = $admin->showAllGoods();
+
+        //获取所有评价数据
+        $commentlist = $admin->showAllComment();
+
+        $v = new View();
+        $v->email = Session::get('email');
+        $v->userlist = $userlist;
+        $v->orderlist = $orderlist;
+        $v->goodslist = $goodslist;
+        $v->commentlist = $commentlist;
+        return $v->fetch('admin/admin');
+    }
+
     public function showAllUser()
     {
         $model = new AdminModel();

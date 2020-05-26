@@ -144,14 +144,14 @@
         },
         methods: {
             login: function () {
-                window.location.href = "{:url('index/index')}";
+                window.location.href = "{:url('login/index')}";
             },
             logout: function () {
                 console.log("logout");
-                window.location.href = "{:url('index/logout')}";
+                window.location.href = "{:url('login/logout')}";
             },
             payment: function () {
-                window.location.href = "{:url('index/jumpToOrder')}";
+                window.location.href = "{:url('order/order')}";
             },
 
             handleChange(value) {

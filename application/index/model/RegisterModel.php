@@ -23,14 +23,14 @@ class RegisterModel extends Model
         } catch (DbException $e) {
         }
         if ($result) {
-            var_dump("该邮箱已被注册");
+            echo("该邮箱已被注册");
         } else {
             $data = ['email' => $email, 'passwd' => md5($passwd)];
             $insert = Db::table('user')->insert($data);
             if ($insert === 1) {
-                var_dump("注册成功");
+                echo("注册成功");
             } else {
-                var_dump("注册失败");
+                echo("注册失败");
             }
         }
     }

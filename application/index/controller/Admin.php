@@ -27,7 +27,7 @@ class Admin extends Controller
         $email = $request->param('email');
         $passwd = $request->param('passwd');
         $log = new Login();
-        $msg = $log->login($email, $passwd, 1);
+        $msg = $log->checkLogin($email, $passwd, 1);
         if ($msg === '登录成功') {
             var_dump("success");
         }

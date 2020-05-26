@@ -6,7 +6,9 @@ namespace app\index\controller;
 use app\index\model\LoginModel;
 use think\Controller;
 use think\Request;
+use think\Session;
 use think\Validate;
+use think\View;
 
 class Login extends Controller
 {
@@ -20,9 +22,12 @@ class Login extends Controller
         $email = $request->param('email');
         $passwd = $request->param('passwd');
         $log = new Login();
-        $msg = $log->checkLogin($email, $passwd, 0);
+        $msg = $log->checkLogin($email, $passwd, $isAdmin);
         if ($msg === '登录成功') {
-            var_dump("success");
+            echo("登录成功");
+        }
+        else{
+            echo("登录失败");
         }
     }
 
@@ -50,7 +55,7 @@ class Login extends Controller
             dump($validate->getError());
         } else {
             $log = new LoginModel();
-            $log->connectDB($email, $passwd,$isAdmin);
+            return $log->connectDB($email, $passwd,$isAdmin);
         }
     }
 

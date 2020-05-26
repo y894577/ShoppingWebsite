@@ -5,16 +5,12 @@ namespace app\index\controller;
 
 
 use app\index\model\OrderModel;
+use think\Controller;
 use think\Request;
 
-class Order
+class Order extends Controller
 {
     private static $model;
-
-    public function showOrder()
-    {
-
-    }
 
     public function showUserOrder($email)
     {

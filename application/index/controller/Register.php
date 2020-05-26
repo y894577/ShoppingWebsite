@@ -10,6 +10,10 @@ use think\Validate;
 
 class Register extends Controller
 {
+    public function index(){
+        return $this->fetch('registers/registers');
+    }
+
     public function register($email, $passwd, $checkpasswd)
     {
         $this->email = $email;

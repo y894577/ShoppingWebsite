@@ -260,7 +260,7 @@
                 window.location.href = "{:url('index/index')}"
             },
             register: function () {
-                window.location.href = "{:url('index/jumpToRegister')}"
+                window.location.href = "{:url('register/index')}"
             },
             submitForm: function (formName) {
                 var that = this;
@@ -269,10 +269,6 @@
                         axios({
                             method: 'post',
                             url: httpd+'/index/adminLogin',
-                            // header: {
-                            //     "Content-Type": 'application/x-www-form-urlencoded;charest=UTF-8',
-                            //     'X-Requested-With': 'XMLHttpRequest'
-                            // },
                             data: {
                                 email: this.ruleForm.email,
                                 passwd: this.ruleForm.pass,

@@ -9,6 +9,12 @@ use think\Model;
 
 class CommentModel extends Model
 {
+    public function deleteComment($data)
+    {
+        $commentID = $data['commentID'];
+        Db::table('comment')->where(['commentID' => $commentID])->delete();
+    }
+
     public function selectList($ID)
     {
         $result = Db::table('comment')->where('ID', $ID)->select();
@@ -19,7 +25,7 @@ class CommentModel extends Model
     {
         $ID = $data['ID'];
         $email = $data['email'];
-        $date = $date['date'];
+        $date = $data['date'];
         $result = Db::table('comment')->where(['ID' => $ID, 'email' => $email, 'date' => $date])->update($data);
     }
 }

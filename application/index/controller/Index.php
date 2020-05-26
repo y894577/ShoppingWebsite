@@ -34,7 +34,7 @@ class Index extends Controller
 
     public function jumpToRegister()
     {
-        return $this->fetch('registers/registers');
+//        return $this->fetch('registers/registers');
     }
 
     public function jumpToUser()
@@ -201,30 +201,9 @@ class Index extends Controller
         $model->deleted($email, $ID);
     }
 
-    //此函数用于删除数据库商品
-    public function deleteGoods(Request $request)
-    {
-        $ID = $request->param('ID');
-        $model = new GoodsModel();
-        $model->deleteGoods($ID);
-        $car = new ShoppingCarModel();
-        $car->deletedGoods($ID);
-    }
 
-    public function deleteUser(Request $request)
-    {
-        $email = $request->param('email');
-        $model = new UserModel();
-        $model->deleted($email);
-    }
 
-    public function deleteOrder(Request $request)
-    {
-        $orderID = $request->param('orderID');
-        var_dump($orderID);
-        $model = new OrderModel();
-        $model->deleteOrder($orderID);
-    }
+
 
 
     public function login(Request $request)
@@ -262,36 +241,6 @@ class Index extends Controller
         $checkpasswd = $request->param('checkpasswd');
         $reg = new Register();
         $reg->register($email, $passwd, $checkpasswd);
-    }
-
-    public function adminUpdateUser(Request $request)
-    {
-        $data = $request->param();
-
-        $model = new UserModel();
-        $result = $model->update($data);
-        var_dump($result);
-    }
-
-    public function adminUpdateOrder(Request $request)
-    {
-        $data = $request->param();
-        $model = new OrderModel($data);
-        $model->updateOrder($data);
-    }
-
-    public function adminUpdateGoods(Request $request)
-    {
-        $data = $request->param();
-        $model = new GoodsModel($data);
-        $model->updateGoods($data);
-    }
-
-    public function adminUpdateComment(Request $request)
-    {
-        $data = $request->param();
-        $model = new CommentModel($data);
-        $model->updateComment($data);
     }
 
     public function submitOrder(Request $request)

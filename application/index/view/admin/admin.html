@@ -99,7 +99,7 @@
                                                    @click="updateUserValue(scope.$index,userList)">确定
                                         </el-button>
                                         <el-button type="text" size="small"
-                                                   @click.native.prevent="deleteOrder(scope.$index, userList)">删除
+                                                   @click.native.prevent="deleteUser(scope.$index, userList)">删除
                                         </el-button>
                                     </template>
                                 </el-table-column>
@@ -202,7 +202,7 @@
                                                    @click="updateOrderValue(scope.$index,userList)">确定
                                         </el-button>
                                         <el-button type="text" size="small"
-                                                   @click.native.prevent="deleteUser(scope.$index, userList)">删除
+                                                   @click.native.prevent="deleteOrder(scope.$index, userList)">删除
                                         </el-button>
                                     </template>
                                 </el-table-column>
@@ -315,6 +315,18 @@
                                     style="width: 100%;">
                                 <el-table-column
                                         prop="ID"
+                                        label="评价编号"
+                                        width="180">
+                                    <template slot-scope="scope">
+                                        <div v-show="!scope.row.isEdit">
+                                            {{ scope.row.commentID }}
+                                        </div>
+                                        <el-input v-show="scope.row.isEdit" v-model="scope.row.commentID"
+                                                  :disalbe="true"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column
+                                        prop="ID"
                                         label="商品编号"
                                         width="180">
                                     <template slot-scope="scope">
@@ -352,7 +364,7 @@
                                 <el-table-column
                                         prop="content"
                                         label="评价详情"
-                                        width="600">
+                                        width="500">
                                     <template slot-scope="scope">
                                         <div v-show="!scope.row.isEdit">
                                             {{ scope.row.content }}
@@ -366,7 +378,10 @@
                                         width="200">
                                     <template slot-scope="scope">
                                         <el-button type="text" size="small" @click="">查看</el-button>
-                                        <el-button type="text" size="small" @click="">编辑</el-button>
+                                        <el-button type="text" size="small" @click="changeCommentValue(scope.$index, commentList,true)">编辑</el-button>
+                                        <el-button type="text" size="small" v-show="scope.row.isEdit"
+                                                   @click="updateCommentValue(scope.$index,commentList)">确定
+                                        </el-button>
                                         <el-button type="text" size="small"
                                                    @click.native.prevent="deleteComment(scope.$index, commentList)">删除
                                         </el-button>
@@ -406,9 +421,6 @@
                 this.orderMaxPage = Math.ceil(this.orderList.length/10);
                 this.goodsMaxPage = Math.ceil(this.goodsList.length/10);
                 this.commentMaxPage = Math.ceil(this.commentList.length/10);
-                // for (let num in this.userList) {
-                //     this.userList[num].isEdit = false;
-                // }
                 console.log(this.commentMaxPage);
             });
         },
@@ -469,7 +481,7 @@
             deleteUser(index, rows) {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:88/public/index.php/index/index/deleteUser',
+                    url: httpd+'/admin/adminDeleteUser',
                     data: {
                         email: this.userList[index].email
                     }
@@ -485,7 +497,7 @@
                 console.log(this.orderList[index]);
                 axios({
                     method: 'post',
-                    url: 'http://localhost:88/public/index.php/index/index/deleteOrder',
+                    url: httpd+'/admin/adminDeleteOrder',
                     data: {
                         orderID: this.orderList[index].orderID
                     }
@@ -500,7 +512,7 @@
                 console.log(this.goodsList[index]);
                 axios({
                     method: 'post',
-                    url: 'http://localhost:88/public/index.php/index/index/deleteGoods',
+                    url: httpd+'/admin/deleteGoods',
                     data: {
                         ID: this.goodsList[index].ID
                     }
@@ -515,9 +527,9 @@
                 console.log(this.commentList[index]);
                 axios({
                     method: 'post',
-                    url: 'http://localhost:88/public/index.php/index/index/deleteComment',
+                    url: httpd+'/admin/adminDeleteComment',
                     data: {
-                        ID: this.commentList[index].ID
+                        commentID: this.commentList[index].commentID
                     }
                 }).then(function (response) {
                     console.log(response);
@@ -545,7 +557,7 @@
                 console.log(data);
                 axios({
                     method: 'post',
-                    url: 'http://localhost:88/public/index.php/index/index/adminUpdateUser',
+                    url: httpd+'/admin/adminUpdateUser',
                     data: data
                 }).then(function (response) {
                     console.log(response);
@@ -573,7 +585,7 @@
                 console.log(data);
                 axios({
                     method: 'post',
-                    url: 'http://localhost:88/public/index.php/index/index/adminUpdateOrder',
+                    url: httpd+'/admin/adminUpdateOrder',
                     data: data
                 }).then(function (response) {
                     console.log(response);
@@ -600,7 +612,7 @@
                 console.log(data);
                 axios({
                     method: 'post',
-                    url: 'http://localhost:88/public/index.php/index/index/adminUpdateGoods',
+                    url: httpd+'/admin/adminUpdateGoods',
                     data: data
                 }).then(function (response) {
                     console.log(response);
@@ -627,7 +639,7 @@
                 console.log(data);
                 axios({
                     method: 'post',
-                    url: httpd+'/index/adminUpdateComment',
+                    url: httpd+'/admin/adminUpdateComment',
                     data: data
                 }).then(function (response) {
                     console.log(response);

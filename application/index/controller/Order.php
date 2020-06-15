@@ -5,6 +5,7 @@ namespace app\index\controller;
 
 
 use app\index\model\OrderModel;
+use think\Console;
 use think\Controller;
 use think\Db;
 use think\Request;
@@ -19,7 +20,7 @@ class Order extends Controller
         $v = new View();
         $v->email = Session::get('email');
 
-        $car = new ShoppingCar();
+        $car = new Car();
         $list = $car->shopping(Session::get('email'));
         $v->list = $list;
 
@@ -42,9 +43,10 @@ class Order extends Controller
         $model = new OrderModel();
     }
 
-    public function submitOrder($form, $address)
+    public function submitOrder(Request $request)
     {
-
+        $form = $request->param()['form'];
+        $address = $request->param()['address'];
         foreach ($form as $data) {
             unset($data['name']);
             unset($data['total']);

@@ -78,6 +78,9 @@
                                         prop="img"
                                         label="商品图片"
                                         width="220">
+                                    <template slot-scope="scope">
+                                        <img :src="scope.row.img"/>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="name"
@@ -122,8 +125,10 @@
         mounted: function () {
             this.$nextTick(function () {
                 this.form = {$list};
+                for(let i in this.form){
+                    this.form[i]['img'] = "/public/static/img/goods/"+this.form[i]['img']+".jpg";
+                }
                 this.address = {$user}[0]['address'];
-                console.log(this.form);
                 this.calculate();
             })
         },
@@ -158,15 +163,15 @@
                         confirmButtonText: '确定',
                         center: true,
                         callback: action => {
-
                             axios({
                                 method: 'post',
-                                url: httpd+'/index/submitOrder',
+                                url: httpd+'/order/submitorder',
                                 data: {
                                     form: this.form,
                                     address: this.address
                                 }
                             }).then(function (response) {
+                                console.log(response);
                                 window.location.href = "{:url('order/payment')}";
                             }).catch(function (error) {
                                 console.log(error)

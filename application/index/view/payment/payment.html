@@ -24,8 +24,8 @@
                     <el-dropdown>
                         <i class="el-icon-more-outline" style=""></i>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item @click="login">登录</el-dropdown-item>
-                            <el-dropdown-item @click="logout">注销</el-dropdown-item>
+                            <el-dropdown-item @click.native="login">登录</el-dropdown-item>
+                            <el-dropdown-item @click.native="logout">注销</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </el-col>
@@ -83,7 +83,7 @@
                                 <el-input v-model="form.name"></el-input>
                             </el-form-item>
                             <el-form-item label="支付密码" style="width: 300px">
-                                <el-input v-model="form.passwd"></el-input>
+                                <el-input type="password" v-model="form.passwd"></el-input>
                             </el-form-item>
                         </div>
                     </el-form>

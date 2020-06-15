@@ -37,12 +37,14 @@
                 <!--                    <el-input type="text" v-model="ruleForm.identify" autocomplete="off"-->
                 <!--                              style="width: 200px"></el-input>-->
                 <!--                </el-form-item>-->
-                <!--                <canvas id="s-canvas" :width="contentWidth" :height="contentHeight" style="margin-left: 100px"></canvas>-->
+                <!--                <canvas id="v_container" :width="contentWidth" :height="contentHeight"-->
+                <!--                        style="margin-left: 100px"></canvas>-->
+                <!--                <div id="v_container"></div>-->
                 <!--                <el-form-item>-->
-                <!--                    <div @click="refreshCode">-->
-                <!--                        <s-identify :identifyCode="identifyCode"></s-identify>-->
-                <!--                    </div>-->
-                <!--                    <el-button @click="refreshCode" type='text' class="textbtn">看不清，换一张</el-button>-->
+                <!--                <div @click="refreshCode">-->
+                <!--                    <s-identify :identifyCode="identifyCode"></s-identify>-->
+                <!--                </div>-->
+                <!--                <el-button @click="refreshCode" type='text' class="textbtn">看不清，换一张</el-button>-->
                 <!--                </el-form-item>-->
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
@@ -53,11 +55,12 @@
     </el-container>
     <div style="position: absolute;left: 52%;margin-top: 40px">
         <el-link type="info" @click="register">没有账号？点击注册</el-link>
-            <br><br>
+        <br><br>
         <el-link type="info" @click="adminLogin">我是管理员...</el-link>
     </div>
 </div>
 </body>
+
 <script>
     new Vue({
         el: '#app',
@@ -120,11 +123,6 @@
                 if (value === '') {
                     return callback(new Error('邮箱不能为空'));
                 }
-                setTimeout(() => {
-                    if (!Number.isInteger(value)) {
-                        callback(new Error('请输入数字值'));
-                    }
-                }, 1000);
             };
             var validatePass = (rule, value, callback) => {
                 if (value === '') {
@@ -136,17 +134,17 @@
                     callback();
                 }
             };
-            var validateVerifycode = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请输入验证码'))
-                } else if (value !== this.identify) {
-                    console.log('validateVerifycode:', value);
-                    callback(new Error('验证码不正确!'))
-                } else {
-                    console.log('validateVerifycode:', value);
-                    callback()
-                }
-            };
+            // var validateVerifycode = (rule, value, callback) => {
+            //     if (value === '') {
+            //         callback(new Error('请输入验证码'))
+            //     } else if (value !== this.ruleForm.identify) {
+            //         console.log('validateVerifycode:', value);
+            //         callback(new Error('验证码不正确!'))
+            //     } else {
+            //         console.log('validateVerifycode:', value);
+            //         callback()
+            //     }
+            // };
             return {
                 ruleForm: {
                     email: '',
@@ -164,91 +162,90 @@
                         {min: 6, max: 18, message: '请输入6至18位数字', trigger: 'blur'},
                         {validator: validatePass, trigger: 'blur'}
                     ],
-                    identify: [
-                        {required: true, message: '验证码不能为空', trigger: 'blur'},
-                        {min: 4, max: 4, message: '请输入4位数字', trigger: 'blur'},
-                        {validator: validateVerifycode, trigger: 'blur'}
-                    ]
+                    // identify: [
+                    //     {required: true, message: '验证码不能为空', trigger: 'blur'},
+                    //     {min: 4, max: 4, message: '请输入4位数字', trigger: 'blur'},
+                    //     {validator: validateVerifycode, trigger: 'blur'}
+                    // ]
                 }
             };
         },
         methods: {
-            //     // 生成一个随机数
-            //     randomNum(min, max) {
-            //         return Math.floor(Math.random() * (max - min) + min)
-            //     },
-            //     // 生成一个随机的颜色
-            //     randomColor(min, max) {
-            //         var r = this.randomNum(min, max);
-            //         var g = this.randomNum(min, max);
-            //         var b = this.randomNum(min, max);
-            //         return 'rgb(' + r + ',' + g + ',' + b + ')'
-            //     },
-            //     drawPic() {
-            //         var canvas = document.getElementById('s-canvas');
-            //         var ctx = canvas.getContext('2d');
-            //         ctx.textBaseline = 'bottom';
-            //         // 绘制背景
-            //         ctx.fillStyle = this.randomColor(
-            //             this.backgroundColorMin,
-            //             this.backgroundColorMax
-            //         )
-            //         ctx.fillRect(0, 0, this.contentWidth, this.contentHeight);
-            //         // 绘制文字
-            //         for (let i = 0; i < this.identifyCode.length; i++) {
-            //             this.drawText(ctx, this.identifyCode[i], i)
-            //         }
-            //         this.drawLine(ctx);
-            //         this.drawDot(ctx)
-            //     },
-            //     drawText(ctx, txt, i) {
-            //         ctx.fillStyle = this.randomColor(this.colorMin, this.colorMax)
-            //         ctx.font =
-            //             this.randomNum(this.fontSizeMin, this.fontSizeMax) + 'px SimHei';
-            //         var x = (i + 1) * (this.contentWidth / (this.identifyCode.length + 1));
-            //         var y = this.randomNum(this.fontSizeMax, this.contentHeight - 5);
-            //         var deg = this.randomNum(-45, 45);
-            //         // 修改坐标原点和旋转角度
-            //         ctx.translate(x, y)
-            //         ctx.rotate(deg * Math.PI / 180);
-            //         ctx.fillText(txt, 0, 0)
-            //         // 恢复坐标原点和旋转角度
-            //         ctx.rotate(-deg * Math.PI / 180);
-            //         ctx.translate(-x, -y)
-            //     },
-            //     drawLine(ctx) {
-            //         // 绘制干扰线
-            //         for (let i = 0; i < 8; i++) {
-            //             ctx.strokeStyle = this.randomColor(
-            //                 this.lineColorMin,
-            //                 this.lineColorMax
-            //             );
-            //             ctx.beginPath();
-            //             ctx.moveTo(
-            //                 this.randomNum(0, this.contentWidth),
-            //                 this.randomNum(0, this.contentHeight)
-            //             );
-            //             ctx.lineTo(
-            //                 this.randomNum(0, this.contentWidth),
-            //                 this.randomNum(0, this.contentHeight)
-            //             );
-            //             ctx.stroke()
-            //         }
-            //     },
-            //     drawDot(ctx) {
-            //         // 绘制干扰点
-            //         for (let i = 0; i < 100; i++) {
-            //             ctx.fillStyle = this.randomColor(0, 255)
-            //             ctx.beginPath()
-            //             ctx.arc(
-            //                 this.randomNum(0, this.contentWidth),
-            //                 this.randomNum(0, this.contentHeight),
-            //                 1,
-            //                 0,
-            //                 2 * Math.PI
-            //             )
-            //             ctx.fill()
-            //         }
+            // // 生成一个随机数
+            // randomNum(min, max) {
+            //     return Math.floor(Math.random() * (max - min) + min)
+            // },
+            // // 生成一个随机的颜色
+            // randomColor(min, max) {
+            //     var r = this.randomNum(min, max);
+            //     var g = this.randomNum(min, max);
+            //     var b = this.randomNum(min, max);
+            //     return 'rgb(' + r + ',' + g + ',' + b + ')'
+            // },
+            // drawPic() {
+            //     var canvas = document.getElementById('s-canvas');
+            //     var ctx = canvas.getContext('2d');
+            //     ctx.textBaseline = 'bottom';
+            //     // 绘制背景
+            //     ctx.fillStyle = this.randomColor(
+            //         this.backgroundColorMin,
+            //         this.backgroundColorMax
+            //     )
+            //     ctx.fillRect(0, 0, this.contentWidth, this.contentHeight);
+            //     // 绘制文字
+            //     for (let i = 0; i < this.identifyCode.length; i++) {
+            //         this.drawText(ctx, this.identifyCode[i], i)
+            //     }
+            //     this.drawLine(ctx);
+            //     this.drawDot(ctx)
+            // },
+            // drawText(ctx, txt, i) {
+            //     ctx.fillStyle = this.randomColor(this.colorMin, this.colorMax)
+            //     ctx.font =
+            //         this.randomNum(this.fontSizeMin, this.fontSizeMax) + 'px SimHei';
+            //     var x = (i + 1) * (this.contentWidth / (this.identifyCode.length + 1));
+            //     var y = this.randomNum(this.fontSizeMax, this.contentHeight - 5);
+            //     var deg = this.randomNum(-45, 45);
+            //     // 修改坐标原点和旋转角度
+            //     ctx.translate(x, y)
+            //     ctx.rotate(deg * Math.PI / 180);
+            //     ctx.fillText(txt, 0, 0)
+            //     // 恢复坐标原点和旋转角度
+            //     ctx.rotate(-deg * Math.PI / 180);
+            //     ctx.translate(-x, -y)
+            // },
+            // drawLine(ctx) {
+            //     // 绘制干扰线
+            //     for (let i = 0; i < 8; i++) {
+            //         ctx.strokeStyle = this.randomColor(
+            //             this.lineColorMin,
+            //             this.lineColorMax
+            //         );
+            //         ctx.beginPath();
+            //         ctx.moveTo(
+            //             this.randomNum(0, this.contentWidth),
+            //             this.randomNum(0, this.contentHeight)
+            //         );
+            //         ctx.lineTo(
+            //             this.randomNum(0, this.contentWidth),
+            //             this.randomNum(0, this.contentHeight)
+            //         );
+            //         ctx.stroke()
+            //     }
+            // },
+            // drawDot(ctx) {
+            //     // 绘制干扰点
+            //     for (let i = 0; i < 100; i++) {
+            //         ctx.fillStyle = this.randomColor(0, 255);
+            //         ctx.beginPath();
+            //         ctx.arc(
+            //             this.randomNum(0, this.contentWidth),
+            //             this.randomNum(0, this.contentHeight),
+            //             1,
+            //             0,
+            //             2 * Math.PI
+            //         );
+            //         ctx.fill()
             //     }
             // },
             // watch: {
@@ -262,7 +259,7 @@
             register: function () {
                 window.location.href = "{:url('register/index')}"
             },
-            adminLogin: function(){
+            adminLogin: function () {
                 window.location.href = "{:url('admin/index')}"
             },
             submitForm: function (formName) {
@@ -271,7 +268,7 @@
                     if (valid) {
                         axios({
                             method: 'post',
-                            url: httpd+'/login/login',
+                            url: httpd + '/login/login',
                             data: {
                                 email: this.ruleForm.email,
                                 passwd: this.ruleForm.pass,
@@ -279,7 +276,7 @@
                         }).then(function (response) {
                             console.log(response.data);
                             alert(response.data);
-                            if(response.data === '登录成功')
+                            if (response.data === '登录成功')
                                 window.location.href = "{:url('index/index')}";
                         }).catch(function (error) {
                             console.log(error);
@@ -293,7 +290,7 @@
             },
             resetForm: function (formName) {
                 this.$refs[formName].resetFields();
-            }
+            },
         }
     })
 

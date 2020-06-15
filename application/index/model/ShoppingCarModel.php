@@ -5,7 +5,7 @@ namespace app\index\model;
 
 
 use app\index\controller\Goods;
-use app\index\controller\ShoppingCar;
+use app\index\controller\Car;
 use think\Db;
 use think\Model;
 
@@ -15,7 +15,7 @@ class ShoppingCarModel extends Model
     public function searchList($email)
     {
         $result = Db::table('shoppingcar')->where('email', $email)->select();
-//        $list = new ShoppingCar();
+//        $list = new Car();
 //        foreach ($result as $item){
 //            $goods = new Goods();
 //            $goods->setEmail($item['email']);

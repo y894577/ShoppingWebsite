@@ -24,8 +24,8 @@
                     <el-dropdown>
                         <i class="el-icon-more-outline" style=""></i>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item @click="login">登录</el-dropdown-item>
-                            <el-dropdown-item @click="logout">注销</el-dropdown-item>
+                            <el-dropdown-item @click.native="login">登录</el-dropdown-item>
+                            <el-dropdown-item @click.native="logout">注销</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </el-col>
@@ -160,7 +160,7 @@
             addToShoppingCar() {
                 axios({
                     method: 'post',
-                    url: httpd+'/index/addGoods',
+                    url: httpd+'/car/addgoods',
                     data: {
                         ID: this.detail[0].ID,
                         name: this.detail[0].name,

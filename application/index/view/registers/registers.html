@@ -29,18 +29,15 @@
                     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
                              style="position: relative;left: 11%;">
                         <el-form-item label="邮箱" prop="email"
-                                      :rules="[{ required: true, message: '请输入邮箱地址', trigger: 'blur' },
-                              { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }]">
+                                    >
                             <el-input type="email" v-model="ruleForm.email" autocomplete="off" style="width: 200px"></el-input>
                         </el-form-item>
                         <el-form-item label="密码" prop="pass"
-                                      :rules="[{ required: true, message: '密码不能为空', trigger: 'blur' },
-                              {min: 6, max: 18, message: '请输入6至18位数字', trigger: 'blur' }]">
+                                      >
                             <el-input type="password" v-model="ruleForm.pass" autocomplete="off" style="width: 200px"></el-input>
                         </el-form-item>
                         <el-form-item label="确认密码" prop="checkPass"
-                                      :rules="[{ required: true, message: '确认密码不能为空', trigger: 'blur' },
-                              {min: 6, max: 18, message: '请输入6至18位数字', trigger: 'blur' }]">
+                                     >
                             <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" style="width: 200px"></el-input>
                         </el-form-item>
                         <el-form-item>
@@ -65,11 +62,6 @@
                 if (value === '') {
                     return callback(new Error('邮箱不能为空'));
                 }
-                setTimeout(() => {
-                    if (!Number.isInteger(value)) {
-                        callback(new Error('请输入数字值'));
-                    }
-                }, 1000);
             };
             var validatePass = (rule, value, callback) => {
                 if (value === '') {
@@ -98,12 +90,18 @@
                 },
                 rules: {
                     email: [
+                        {required: true, message: '邮箱不能为空', trigger: 'blur'},
+                        {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change']},
                         {validator: checkEmail, trigger: 'blur'}
                     ],
                     pass: [
-                        {validator: validatePass, trigger: 'blur'}
+                        {required: true, message: '密码不能为空', trigger: 'blur'},
+                        {min: 6, max: 18, message: '请输入6至18位数字', trigger: 'blur'},
+                        {validator: validatePass, trigger: 'blur'},
                     ],
                     checkPass: [
+                        {required: true, message: '确认密码不能为空', trigger: 'blur'},
+                        {min: 6, max: 18, message: '请输入6至18位数字', trigger: 'blur'},
                         {validator: validatePass2, trigger: 'blur'}
                     ]
                 }

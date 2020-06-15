@@ -165,8 +165,31 @@
                     </el-col>
                 </el-row>
             </el-main>
-            <el-footer>
-                关于我们
+            <el-footer style="color: #8c939d;font-size: 13px">
+
+                <el-row type="flex" class="row-bg" justify="space-between">
+
+
+                    <el-col :span="8">
+                        <div style="font-size: 15px;color: black">关于我们</div>
+                        <div>制作人：王慧云</div>
+                        <div>学号：20182005074</div>
+                        <div>如有疑问，欢迎咨询！</div>
+                    </el-col>
+                    <el-col :span="8">
+                        <div style="font-size: 15px;color: black">商家服务</div>
+                        <div>商家入驻</div>
+                        <div>商家中心</div>
+                    </el-col>
+                    <el-col :span="8">
+                        <div style="font-size: 15px;color: black">购物保障</div>
+                        <div>发票保障</div>
+                        <div>售后规则</div>
+                        <div>缺货赔付</div>
+                    </el-col>
+                </el-row>
+
+
             </el-footer>
         </el-container>
 
@@ -213,7 +236,7 @@
             search: function () {
                 axios({
                     method: 'post',
-                    url: httpd+'/search/search',
+                    url: httpd + '/search/search',
                     data: {
                         item: this.input,
                         tag: this.tag,
@@ -226,7 +249,7 @@
                 });
             },
             jumpToShoppingCar: function () {
-                window.location.href = "{:url('ShoppingCar/ShoppingCar')}";
+                window.location.href = "{:url('Car/ShoppingCar')}";
             },
             jumpToUser: function () {
                 window.location.href = "{:url('index/jumpToUser')}";
@@ -234,7 +257,7 @@
             jumpToDetail: function (item) {
                 axios({
                     method: 'post',
-                    url: httpd+'/detail/detail',
+                    url: httpd + '/detail/detail',
                     data: {
                         ID: item
                     }

@@ -112,9 +112,9 @@
                 window.location.href = "{:url('login/index')}";
             },
             submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        // alert('submit!');
+                // this.$refs[formName].validate((valid) => {
+                //     if (valid) {
+
                         axios({
                             method: 'post',
                             url: httpd+'/register/register',
@@ -133,13 +133,14 @@
                             if(response.data === '注册成功')
                                 window.location.href = "{:url('login/index')}";
                         }).catch(function (error) {
+                            alert('注册失败');
                             console.log(error);
                         })
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                })
+                    // } else {
+                    //     console.log('error submit!!');
+                    //     return false;
+                    // }
+                // })
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();

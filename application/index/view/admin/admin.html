@@ -26,8 +26,8 @@
                     <el-dropdown>
                         <i class="el-icon-more-outline" style=""></i>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item @click="">登录</el-dropdown-item>
-                            <el-dropdown-item @click="">注销</el-dropdown-item>
+                            <el-dropdown-item @click.native="login">登录</el-dropdown-item>
+                            <el-dropdown-item @click.native="logout">注销</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </el-col>
@@ -417,10 +417,10 @@
                 this.orderCount = this.orderList.length;
                 this.goodsCount = this.goodsList.length;
                 this.commentCount = this.commentList.length;
-                this.userMaxPage = Math.ceil(this.userList.length/10);
-                this.orderMaxPage = Math.ceil(this.orderList.length/10);
-                this.goodsMaxPage = Math.ceil(this.goodsList.length/10);
-                this.commentMaxPage = Math.ceil(this.commentList.length/10);
+                this.userMaxPage = Math.ceil(this.userList.length/5);
+                this.orderMaxPage = Math.ceil(this.orderList.length/5);
+                this.goodsMaxPage = Math.ceil(this.goodsList.length/5);
+                this.commentMaxPage = Math.ceil(this.commentList.length/5);
                 console.log(this.commentMaxPage);
             });
         },
@@ -441,7 +441,7 @@
             orderCurrentPage: 1,
             goodsCurrentPage: 1,
             commentCurrentPage: 1,
-            pageSize: 10,
+            pageSize: 5,
 
             userMaxPage: 1,
             orderMaxPage: 1,

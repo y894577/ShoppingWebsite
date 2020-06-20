@@ -6,6 +6,7 @@ namespace app\index\controller;
 
 use app\index\model\RegisterModel;
 use think\Controller;
+use think\Request;
 use think\Validate;
 
 class Register extends Controller
@@ -14,10 +15,10 @@ class Register extends Controller
         return $this->fetch('registers/registers');
     }
 
-    public function register($email, $passwd, $checkpasswd)
+    public function register(Request $request)
     {
-        $this->email = $email;
-        $this->passwd = $passwd;
+        $email = $request->param('email');
+        $passwd = $request->param('passwd');
         $rule = [
             'passwd' => 'require|max:18|min:6',
             'email' => 'require|email',

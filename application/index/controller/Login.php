@@ -21,6 +21,7 @@ class Login extends Controller
     {
         $email = $request->param('email');
         $passwd = $request->param('passwd');
+        $isAdmin = 0;
         $log = new Login();
         $msg = $log->checkLogin($email, $passwd, $isAdmin);
         if ($msg === '登录成功') {

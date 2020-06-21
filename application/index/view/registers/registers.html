@@ -112,8 +112,8 @@
                 window.location.href = "{:url('login/index')}";
             },
             submitForm(formName) {
-                // this.$refs[formName].validate((valid) => {
-                //     if (valid) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
 
                         axios({
                             method: 'post',

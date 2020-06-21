@@ -33,19 +33,22 @@
                     <el-input type="password" v-model="ruleForm.pass" autocomplete="off" id="passwd"
                               style="width: 200px"></el-input>
                 </el-form-item>
-                <!--                <el-form-item label="验证码" prop="identify">-->
-                <!--                    <el-input type="text" v-model="ruleForm.identify" autocomplete="off"-->
-                <!--                              style="width: 200px"></el-input>-->
-                <!--                </el-form-item>-->
+                <el-form-item label="验证码" prop="identify">
+                    <el-input type="text" v-model="ruleForm.identify" autocomplete="off" id="identify"
+                              style="width: 200px"></el-input>
+                    <img style="width: 180px;margin-top: 10px" src="{:url('login/verify')}" alt="captcha"/>
+                </el-form-item>
                 <!--                <canvas id="v_container" :width="contentWidth" :height="contentHeight"-->
                 <!--                        style="margin-left: 100px"></canvas>-->
-                <!--                <div id="v_container"></div>-->
-                <!--                <el-form-item>-->
-                <!--                <div @click="refreshCode">-->
-                <!--                    <s-identify :identifyCode="identifyCode"></s-identify>-->
-                <!--                </div>-->
-                <!--                <el-button @click="refreshCode" type='text' class="textbtn">看不清，换一张</el-button>-->
-                <!--                </el-form-item>-->
+
+<!--                <div id="v_container"></div>-->
+<!--                <el-form-item>-->
+<!--                    <div @click="refreshCode">-->
+<!--                        <s-identify :identifyCode="identifyCode"></s-identify>-->
+<!--                    </div>-->
+                    <!--                                        <el-button @click="refreshCode" type='text' class="textbtn">看不清，换一张</el-button>-->
+
+<!--                </el-form-item>-->
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
                     <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -272,6 +275,7 @@
                             data: {
                                 email: this.ruleForm.email,
                                 passwd: this.ruleForm.pass,
+                                code: this.ruleForm.identify,
                             }
                         }).then(function (response) {
                             console.log(response.data);

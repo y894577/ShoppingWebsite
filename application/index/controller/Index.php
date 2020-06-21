@@ -2,6 +2,7 @@
 
 namespace app\index\controller;
 
+use think\captcha\Captcha;
 use app\index\model\UserModel;
 use think\Controller;
 use think\Db;
@@ -18,7 +19,8 @@ class Index extends Controller
         return $v->fetch('index/index');
     }
 
-    public function login(){
+    public function login()
+    {
         return $this->fetch('login/login');
     }
 
@@ -32,7 +34,6 @@ class Index extends Controller
         $v->user = $result;
         return $v->fetch('user/user');
     }
-
 
 
     public function updateUser(Request $request)

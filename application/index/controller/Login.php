@@ -4,6 +4,7 @@
 namespace app\index\controller;
 
 use app\index\model\LoginModel;
+use think\captcha\Captcha;
 use think\Controller;
 use think\Request;
 use think\Session;
@@ -12,24 +13,31 @@ use think\View;
 
 class Login extends Controller
 {
+    public $captcha;
 
-    public function index(){
+    public function index()
+    {
         return $this->fetch('login/login');
     }
 
     public function login(Request $request)
     {
+        $code = $request->param('code');
         $email = $request->param('email');
         $passwd = $request->param('passwd');
         $isAdmin = 0;
-        $log = new Login();
-        $msg = $log->checkLogin($email, $passwd, $isAdmin);
-        if ($msg === '登录成功') {
-            echo("登录成功");
+        if ($this->checkVerify($code) === 'success') {
+            $log = new Login();
+            $msg = $log->checkLogin($email, $passwd, $isAdmin);
+            if ($msg === '登录成功') {
+                echo("登录成功");
+            } else {
+                echo("登录失败");
+            }
+        } else {
+            echo("验证码错误");
         }
-        else{
-            echo("登录失败");
-        }
+
     }
 
     public function checkLogin($email, $passwd, $isAdmin)
@@ -56,7 +64,7 @@ class Login extends Controller
             dump($validate->getError());
         } else {
             $log = new LoginModel();
-            return $log->connectDB($email, $passwd,$isAdmin);
+            return $log->connectDB($email, $passwd, $isAdmin);
         }
     }
 
@@ -64,5 +72,24 @@ class Login extends Controller
     {
         session(null);
         return $this->fetch('login/login');
+    }
+
+    //验证码
+    public function verify()
+    {
+        $captcha = new Captcha();
+        return $captcha->entry();
+    }
+
+    public function checkVerify($code = '')
+    {
+        $captcha = new Captcha();
+        if (!$captcha->check($code)) {
+//            $this->error('验证码错误');
+            return 'error';
+        } else {
+//            $this->success('验证码正确');
+            return 'success';
+        }
     }
 }

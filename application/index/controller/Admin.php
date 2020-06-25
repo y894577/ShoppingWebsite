@@ -10,6 +10,7 @@ use app\index\model\GoodsModel;
 use app\index\model\OrderModel;
 use app\index\model\ShoppingCarModel;
 use app\index\model\UserModel;
+use think\captcha\Captcha;
 use think\Controller;
 use think\Request;
 use think\Session;
@@ -18,18 +19,45 @@ use think\View;
 class Admin extends Controller
 {
 
-    public function index(){
-            return $this->fetch('adminLogin/adminLogin');
+    public function index()
+    {
+        return $this->fetch('adminLogin/adminLogin');
     }
 
     public function adminLogin(Request $request)
     {
+        $code = $request->param('code');
         $email = $request->param('email');
         $passwd = $request->param('passwd');
         $log = new Login();
         $msg = $log->checkLogin($email, $passwd, 1);
-        if ($msg === '登录成功') {
-            var_dump("success");
+        if ($this->checkVerify($code) === 'success') {
+            if ($msg === '登录成功') {
+                var_dump("success");
+            }
+        } else {
+            echo("验证码错误");
+        }
+
+    }
+
+    //验证码
+    public function verify()
+    {
+        $captcha = new Captcha();
+        $captcha->length = 4;
+        return $captcha->entry();
+    }
+
+    public function checkVerify($code = '')
+    {
+        $captcha = new Captcha();
+        if (!$captcha->check($code)) {
+//            $this->error('验证码错误');
+            return 'error';
+        } else {
+//            $this->success('验证码正确');
+            return 'success';
         }
     }
 
@@ -80,13 +108,15 @@ class Admin extends Controller
         return $result;
     }
 
-    public function showAllGoods(){
+    public function showAllGoods()
+    {
         $model = new AdminModel();
         $result = $model->searchGoods();
         return $result;
     }
 
-    public function showAllComment(){
+    public function showAllComment()
+    {
         $model = new AdminModel();
         $result = $model->searchComment();
         return $result;
@@ -125,7 +155,8 @@ class Admin extends Controller
         $car->deletedGoods($ID);
     }
 
-    public function adminDeleteComment(Request $request){
+    public function adminDeleteComment(Request $request)
+    {
         $data = $request->param();
         $model = new CommentModel();
         $model->deleteComment($data);

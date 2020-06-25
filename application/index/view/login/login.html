@@ -33,7 +33,7 @@
                     <el-input type="password" v-model="ruleForm.pass" autocomplete="off" id="passwd"
                               style="width: 200px"></el-input>
                 </el-form-item>
-                <el-form-item label="验证码" prop="identify">
+                <el-form-item label="验证码" prop="identify" :required="true" >
                     <el-input type="text" v-model="ruleForm.identify" autocomplete="off" id="identify"
                               style="width: 200px"></el-input>
                     <img style="width: 180px;margin-top: 10px" src="{:url('login/verify')}" alt="captcha"/>
@@ -165,11 +165,11 @@
                         {min: 6, max: 18, message: '请输入6至18位数字', trigger: 'blur'},
                         {validator: validatePass, trigger: 'blur'}
                     ],
-                    // identify: [
-                    //     {required: true, message: '验证码不能为空', trigger: 'blur'},
-                    //     {min: 4, max: 4, message: '请输入4位数字', trigger: 'blur'},
-                    //     {validator: validateVerifycode, trigger: 'blur'}
-                    // ]
+                    identify: [
+                        {required: true, message: '验证码不能为空', trigger: 'blur'},
+                        // {min: 4, max: 4, message: '请输入4位数字', trigger: 'blur'},
+                        // {validator: validateVerifycode, trigger: 'blur'}
+                    ]
                 }
             };
         },

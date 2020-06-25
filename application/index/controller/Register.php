@@ -5,18 +5,21 @@ namespace app\index\controller;
 
 
 use app\index\model\RegisterModel;
+use think\captcha\Captcha;
 use think\Controller;
 use think\Request;
 use think\Validate;
 
 class Register extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return $this->fetch('registers/registers');
     }
 
     public function register(Request $request)
     {
+        $code = $request->param('code');
         $email = $request->param('email');
         $passwd = $request->param('passwd');
         $rule = [
@@ -36,11 +39,36 @@ class Register extends Controller
         ];
         $validate = new Validate($rule, $msg);
         $result = $validate->check($data);
-        if (!$result) {
-            dump($validate->getError());
+        if ($this->checkVerify($code) === 'success') {
+            if (!$result) {
+                dump($validate->getError());
+            } else {
+                $reg = new RegisterModel();
+                $reg->connectDB($email, $passwd);
+            }
         } else {
-            $reg = new RegisterModel();
-            $reg->connectDB($email,$passwd);
+            echo("验证码错误");
+        }
+    }
+
+
+    //验证码
+    public function verify()
+    {
+        $captcha = new Captcha();
+        $captcha->length = 4;
+        return $captcha->entry();
+    }
+
+    public function checkVerify($code = '')
+    {
+        $captcha = new Captcha();
+        if (!$captcha->check($code)) {
+//            $this->error('验证码错误');
+            return 'error';
+        } else {
+//            $this->success('验证码正确');
+            return 'success';
         }
     }
 }

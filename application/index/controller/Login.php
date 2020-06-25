@@ -78,6 +78,7 @@ class Login extends Controller
     public function verify()
     {
         $captcha = new Captcha();
+        $captcha->length   = 4;
         return $captcha->entry();
     }
 

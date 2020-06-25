@@ -29,16 +29,24 @@
                     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
                              style="position: relative;left: 11%;">
                         <el-form-item label="邮箱" prop="email"
-                                    >
-                            <el-input type="email" v-model="ruleForm.email" autocomplete="off" style="width: 200px"></el-input>
+                        >
+                            <el-input type="email" v-model="ruleForm.email" autocomplete="off"
+                                      style="width: 200px"></el-input>
                         </el-form-item>
                         <el-form-item label="密码" prop="pass"
-                                      >
-                            <el-input type="password" v-model="ruleForm.pass" autocomplete="off" style="width: 200px"></el-input>
+                        >
+                            <el-input type="password" v-model="ruleForm.pass" autocomplete="off"
+                                      style="width: 200px"></el-input>
                         </el-form-item>
                         <el-form-item label="确认密码" prop="checkPass"
-                                     >
-                            <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" style="width: 200px"></el-input>
+                        >
+                            <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"
+                                      style="width: 200px"></el-input>
+                        </el-form-item>
+                        <el-form-item label="验证码" prop="identify" :required="true">
+                            <el-input type="text" v-model="ruleForm.identify" autocomplete="off" id="identify"
+                                      style="width: 200px"></el-input>
+                            <img style="width: 180px;margin-top: 10px" src="{:url('login/verify')}" alt="captcha"/>
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('ruleForm')">注册</el-button>
@@ -87,6 +95,7 @@
                     email: '',
                     pass: '',
                     checkPass: '',
+                    identify: ''
                 },
                 rules: {
                     email: [
@@ -103,6 +112,11 @@
                         {required: true, message: '确认密码不能为空', trigger: 'blur'},
                         {min: 6, max: 18, message: '请输入6至18位数字', trigger: 'blur'},
                         {validator: validatePass2, trigger: 'blur'}
+                    ],
+                    identify: [
+                        {required: true, message: '验证码不能为空', trigger: 'blur'},
+                        // {min: 4, max: 4, message: '请输入4位数字', trigger: 'blur'},
+                        // {validator: validateVerifycode, trigger: 'blur'}
                     ]
                 }
             };
@@ -117,7 +131,7 @@
 
                         axios({
                             method: 'post',
-                            url: httpd+'/register/register',
+                            url: httpd + '/register/register',
                             header: {
                                 "Content-Type": 'application/x-www-form-urlencoded;charest=UTF-8',
                                 'X-Requested-With': 'XMLHttpRequest'
@@ -126,26 +140,28 @@
                                 email: this.ruleForm.email,
                                 passwd: this.ruleForm.pass,
                                 checkpasswd: this.ruleForm.checkPass,
+                                code: this.ruleForm.identify,
                             }
                         }).then(function (response) {
                             console.log(response);
                             alert(response.data);
-                            if(response.data === '注册成功')
+                            if (response.data === '注册成功')
                                 window.location.href = "{:url('login/index')}";
                         }).catch(function (error) {
                             alert('注册失败');
                             console.log(error);
                         })
-                    // } else {
-                    //     console.log('error submit!!');
-                    //     return false;
-                    // }
-                // })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                })
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
             }
         }
     })
+
 </script>
 </html>

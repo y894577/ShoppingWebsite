@@ -32,6 +32,11 @@
                     <el-input type="password" v-model="ruleForm.pass" autocomplete="off" id="passwd"
                               style="width: 200px"></el-input>
                 </el-form-item>
+                <el-form-item label="验证码" prop="identify" :required="true">
+                    <el-input type="text" v-model="ruleForm.identify" autocomplete="off" id="identify"
+                              style="width: 200px"></el-input>
+                    <img style="width: 180px;margin-top: 10px" src="{:url('login/verify')}" alt="captcha"/>
+                </el-form-item>
                 <!--                <el-form-item label="验证码" prop="identify">-->
                 <!--                    <el-input type="text" v-model="ruleForm.identify" autocomplete="off"-->
                 <!--                              style="width: 200px"></el-input>-->
@@ -163,8 +168,8 @@
                     ],
                     identify: [
                         {required: true, message: '验证码不能为空', trigger: 'blur'},
-                        {min: 4, max: 4, message: '请输入4位数字', trigger: 'blur'},
-                        {validator: validateVerifycode, trigger: 'blur'}
+                        // {min: 4, max: 4, message: '请输入4位数字', trigger: 'blur'},
+                        // {validator: validateVerifycode, trigger: 'blur'}
                     ]
                 }
             };
@@ -256,7 +261,7 @@
             // mounted() {
             //     this.drawPic()
             // },
-            login:function(){
+            login: function () {
                 window.location.href = "{:url('login/index')}"
             },
             register: function () {
@@ -268,10 +273,11 @@
                     if (valid) {
                         axios({
                             method: 'post',
-                            url: httpd+'/admin/adminLogin',
+                            url: httpd + '/admin/adminLogin',
                             data: {
                                 email: this.ruleForm.email,
                                 passwd: this.ruleForm.pass,
+                                code: this.ruleForm.identify,
                             }
                         }).then(function (response) {
                             console.log(response.data);
